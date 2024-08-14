@@ -12,3 +12,98 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model tb_user {
+  id         String       @id @default(uuid())
+  username   String       @db.VarChar(50)
+  email      String       @unique @db.VarChar(255)
+  password   String
+  role       Role         @default(USER)
+  created_on DateTime     @default(now())
+  deleted_at DateTime?
+  reviews    tb_reviews[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model tb_category {
+  id       String       @id @default(uuid())
+  name     String       @unique @db.VarChar(100)
+  products tb_product[]
+}
+
+model tb_size {
+  id                  String                 @id @default(uuid())
+  size_name           String                 @unique @db.VarChar(30)
+  variations_products tb_product_variation[]
+}
+
+model tb_color {
+  id                  String                 @id @default(uuid())
+  color_name          String                 @unique
+  color_code          String
+  variations_products tb_product_variation[]
+}
+
+model tb_product {
+  id                  String                 @id @default(uuid())
+  id_category         String
+  category            tb_category            @relation(fields: [id_category], references: [id])
+  product_name        String                 @unique @db.VarChar(100)
+  short_description   String                 @db.VarChar(50)
+  description         String                 @db.VarChar(255)
+  base_price          Decimal                @db.Decimal(12, 2)
+  discount_percentage Decimal?               @db.Decimal(5, 2)
+  final_price         Decimal                @db.Decimal(12, 2)
+  tags                String                 @db.VarChar(30)
+  image_1             String                 @db.VarChar(255)
+  image_2             String?                @db.VarChar(255)
+  image_3             String?                @db.VarChar(255)
+  image_4             String?                @db.VarChar(255)
+  created_on          DateTime               @default(now())
+  updated_at          DateTime               @updatedAt
+  deleted_at          DateTime?
+  product_variations  tb_product_variation[]
+  reviews             tb_reviews[]
+
+  @@index([id])
+  @@index([product_name])
+  @@index([base_price])
+  @@index([final_price])
+}
+
+model tb_product_variation {
+  id         String     @id @default(uuid())
+  id_product String
+  id_size    String?
+  id_color   String?
+  product    tb_product @relation(fields: [id_product], references: [id])
+  size       tb_size?   @relation(fields: [id_size], references: [id])
+  color      tb_color?  @relation(fields: [id_color], references: [id])
+  quantity   Int
+  SKU        String     @unique @db.VarChar(5)
+  updated_at DateTime   @updatedAt
+
+  @@unique([id_product, id_size, id_color])
+  @@index([id_product])
+  @@index([id_size])
+  @@index([id_color])
+}
+
+model tb_reviews {
+  id          String     @id @default(uuid())
+  id_user     String
+  user        tb_user    @relation(fields: [id_user], references: [id])
+  id_product  String
+  product     tb_product @relation(fields: [id_product], references: [id])
+  rating      Decimal    @db.Decimal(2, 1)
+  review_text String     @db.Text
+  created_at  DateTime   @default(now())
+  deleted_at  DateTime?
+
+  @@unique([id_user, id_product])
+  @@index([id_product])
+}
