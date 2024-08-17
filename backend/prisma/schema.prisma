@@ -38,14 +38,16 @@ enum Status {
 }
 
 model tb_category {
-  id       String       @id @default(uuid())
-  name     String       @unique @db.VarChar(100)
-  products tb_product[]
+  id         String       @id @default(uuid())
+  name       String       @unique @db.VarChar(100)
+  deleted_at DateTime?
+  products   tb_product[]
 }
 
 model tb_size {
   id                  String                 @id @default(uuid())
   size_name           String                 @unique @db.VarChar(30)
+  deleted_at          DateTime?
   variations_products tb_product_variation[]
 }
 
@@ -53,6 +55,7 @@ model tb_color {
   id                  String                 @id @default(uuid())
   color_name          String                 @unique @db.VarChar(45)
   color_code          String
+  deleted_at          DateTime?
   variations_products tb_product_variation[]
 }
 
@@ -94,6 +97,7 @@ model tb_product_variation {
   quantity   Int
   SKU        String         @unique @db.VarChar(5)
   updated_at DateTime       @updatedAt
+  deleted_at DateTime?
   cart_item  tb_cart_item[]
 
   @@unique([id_product, id_size, id_color])
@@ -122,6 +126,7 @@ model tb_cart {
   id_user    String
   user       tb_user        @relation(fields: [id_user], references: [id])
   created_at DateTime       @default(now())
+  deleted_at DateTime?
   status     Status
   cart_itens tb_cart_item[]
   bill       tb_bill[]
@@ -135,27 +140,30 @@ model tb_cart_item {
   id_product_variation String
   cart                 tb_cart              @relation(fields: [id_cart], references: [id])
   product_var          tb_product_variation @relation(fields: [id_product_variation], references: [id])
+  updated_at           DateTime             @updatedAt
+  deleted_at           DateTime?
 
   @@index([id_cart])
 }
 
 model tb_bill {
-  id             String   @id @default(uuid())
+  id             String    @id @default(uuid())
   id_cart        String
   id_user        String
-  user           tb_user  @relation(fields: [id_user], references: [id])
-  cart           tb_cart  @relation(fields: [id_cart], references: [id])
-  first_name     String   @db.VarChar(50)
-  last_name      String   @db.VarChar(50)
-  company_name   String?  @db.VarChar(100)
-  zip_code       String   @db.VarChar(20)
-  country_region String   @db.VarChar(100)
-  street_address String   @db.VarChar(255)
-  city_town      String   @db.VarChar(100)
-  province       String   @db.VarChar(100)
-  address_line_2 String?  @db.VarChar(255)
-  email_address  String   @db.VarChar(255)
-  created_at     DateTime @default(now())
+  user           tb_user   @relation(fields: [id_user], references: [id])
+  cart           tb_cart   @relation(fields: [id_cart], references: [id])
+  first_name     String    @db.VarChar(50)
+  last_name      String    @db.VarChar(50)
+  company_name   String?   @db.VarChar(100)
+  zip_code       String    @db.VarChar(20)
+  country_region String    @db.VarChar(100)
+  street_address String    @db.VarChar(255)
+  city_town      String    @db.VarChar(100)
+  province       String    @db.VarChar(100)
+  address_line_2 String?   @db.VarChar(255)
+  email_address  String    @db.VarChar(255)
+  created_at     DateTime  @default(now())
+  deleted_at     DateTime?
 
   @@index([id_user])
   @@index([id_cart])

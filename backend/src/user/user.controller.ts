@@ -18,13 +18,13 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  findAll(@Query('role') role?: 'ADMIN' | 'USER') {
-    return this.userService.findAll(role);
+  findAllUsers(@Query('role') role?: 'ADMIN' | 'USER') {
+    return this.userService.findAllUsers(role);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+  findUser(@Param('id') id: string) {
+    return this.userService.findUser(id);
   }
 
   @Post()
@@ -33,21 +33,21 @@ export class UserController {
   }
 
   @Patch(':id')
-  update(
+  updateUser(
     @Param('id') id: string,
     @Body()
     userUpdate: UpdateUserDto,
   ) {
-    return this.userService.update(id, userUpdate);
+    return this.userService.updateUser(id, userUpdate);
   }
 
   @Patch(':id/soft-delete')
-  softDelete(@Param('id') id: string) {
-    return this.userService.softDelete(id);
+  softDeleteUser(@Param('id') id: string) {
+    return this.userService.softDeleteUser(id);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.userService.delete(id);
+  deleteUser(@Param('id') id: string) {
+    return this.userService.deleteUser(id);
   }
 }
