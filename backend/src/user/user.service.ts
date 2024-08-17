@@ -2,6 +2,7 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -12,31 +13,46 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(role?: 'ADMIN' | 'USER') {
+  async findAllUsers(role?: 'ADMIN' | 'USER') {
     let users;
-    if (role) {
-      users = await this.prisma.tb_user.findMany({
-        where: { role, deleted_at: null },
-      });
-    } else {
-      users = await this.prisma.tb_user.findMany({
-        where: { deleted_at: null },
-      });
+    try {
+      if (role) {
+        if (role !== 'ADMIN' && role !== 'USER') {
+          throw new BadRequestException(`Invalid role: ${role}`);
+        }
+
+        users = await this.prisma.tb_user.findMany({
+          where: { role, deleted_at: null },
+        });
+      } else {
+        users = await this.prisma.tb_user.findMany({
+          where: { deleted_at: null },
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      throw new InternalServerErrorException('An error occurred while fetching users.')
     }
 
     if (users.length === 0) {
-      throw new NotFoundException('Users not found!');
+      throw new NotFoundException('No user was found!');
     }
 
     return users;
   }
 
-  async findOne(id: string) {
-    const user = await this.prisma.tb_user.findUnique({
-      where: { id: id, deleted_at: null },
-    });
+  async findUser(id: string) {
+    let user = null;
+    try {
+      user = await this.prisma.tb_user.findUnique({
+        where: { id: id, deleted_at: null },
+      });      
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      throw new InternalServerErrorException('An error occurred while fetching user.');      
+    }    
 
-    if (!user) throw new NotFoundException('User not found!');
+    if (user === null) throw new NotFoundException('User not found!');
 
     return user;
   }
@@ -62,7 +78,7 @@ export class UserService {
     }
   }
 
-  async update(id: string, updatedUser: UpdateUserDto) {
+  async updateUser(id: string, updatedUser: UpdateUserDto) {
     try {
       return await this.prisma.tb_user.update({
         where: {
@@ -73,10 +89,10 @@ export class UserService {
     } catch (error) {
       console.error(`Error while updating a user: ${error.message}`);
       throw new InternalServerErrorException('Failed to update a user!');
-    }    
+    }
   }
 
-  async softDelete(id: string) {
+  async softDeleteUser(id: string) {
     try {
       return await this.prisma.tb_user.update({
         where: { id: id },
@@ -86,16 +102,15 @@ export class UserService {
       console.error(`Error soft-deleting a user: ${error.message}`);
 
       throw new InternalServerErrorException('Failed to soft-delete a user!');
-    }    
+    }
   }
 
-  async delete(id: string) {
+  async deleteUser(id: string) {
     try {
       return await this.prisma.tb_user.delete({ where: { id: id } });
     } catch (error) {
       console.error(`Error hard-deleting a user: ${error.message}`);
-
       throw new InternalServerErrorException('Failed to hard-delete a user!');
-    }    
+    }
   }
 }
