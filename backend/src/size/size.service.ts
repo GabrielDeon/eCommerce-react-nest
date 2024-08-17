@@ -18,7 +18,7 @@ export class SizeService {
         where: { deleted_at: null },
       });
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.error('Error fetching sizes:', error);
       throw new InternalServerErrorException(
         'An error occurred while fetching sizes.',
       );
@@ -55,7 +55,7 @@ export class SizeService {
       return await this.prisma.tb_size.create({ data: sizeData });
     } catch (error) {
       console.error(`Error creating a new size: ${error.message}`);
-      throw new InternalServerErrorException('Failed to create a new user!');
+      throw new InternalServerErrorException('Failed to create a new size!');
     }
   }
 
@@ -68,8 +68,8 @@ export class SizeService {
         data: updatedSize,
       });
     } catch (error) {
-      console.error(`Error while updating a user: ${error.message}`);
-      throw new InternalServerErrorException('Failed to update a user!');
+      console.error(`Error while updating a size: ${error.message}`);
+      throw new InternalServerErrorException('Failed to update a size!');
     }
   }
 
