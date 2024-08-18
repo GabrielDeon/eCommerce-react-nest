@@ -95,7 +95,7 @@ model tb_product_variation {
   size       tb_size?       @relation(fields: [id_size], references: [id])
   color      tb_color?      @relation(fields: [id_color], references: [id])
   quantity   Int
-  SKU        String         @unique @db.VarChar(5)
+  SKU        String         @unique @db.VarChar(7)
   updated_at DateTime       @updatedAt
   deleted_at DateTime?
   cart_item  tb_cart_item[]
