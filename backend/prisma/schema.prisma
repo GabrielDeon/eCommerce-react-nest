@@ -67,7 +67,7 @@ model tb_product {
   short_description   String                 @db.VarChar(50)
   description         String                 @db.VarChar(255)
   base_price          Decimal                @db.Decimal(12, 2)
-  discount_percentage Decimal?               @db.Decimal(5, 2)
+  discount_percentage Decimal?               @db.Decimal(5, 2) @default(0)
   final_price         Decimal                @db.Decimal(12, 2)
   tags                String                 @db.VarChar(30)
   image_1             String                 @db.VarChar(255)
