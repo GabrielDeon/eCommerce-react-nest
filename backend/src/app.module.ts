@@ -5,10 +5,11 @@ import { UserModule } from './user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { SizeModule } from './size/size.module';
 import { ColorModule } from './color/color.module';
+import { CategoryModule } from './category/category.module';
 
 
 @Module({
-  imports: [UserModule, PrismaModule, SizeModule, ColorModule],
+  imports: [UserModule, PrismaModule, SizeModule, ColorModule, CategoryModule],
   controllers: [AppController],
   providers: [AppService],
 })
