@@ -2,7 +2,8 @@ import { Decimal } from '@prisma/client/runtime/library';
 import { IsDate, IsDecimal, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateProductDto {
-  
+  @IsString()
+  @IsNotEmpty()
   id_category: string;
 
   @IsString()

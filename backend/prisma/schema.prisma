@@ -21,7 +21,7 @@ model tb_user {
   role       Role         @default(USER)
   created_on DateTime     @default(now())
   deleted_at DateTime?
-  reviews    tb_reviews[]
+  reviews    tb_review[]
   carts      tb_cart[]
   tb_bill    tb_bill[]
 }
@@ -78,7 +78,7 @@ model tb_product {
   updated_at          DateTime               @updatedAt
   deleted_at          DateTime?
   product_variations  tb_product_variation[]
-  reviews             tb_reviews[]
+  reviews             tb_review[]
 
   @@index([id])
   @@index([product_name])
@@ -106,14 +106,14 @@ model tb_product_variation {
   @@index([id_color])
 }
 
-model tb_reviews {
+model tb_review {
   id          String     @id @default(uuid())
   id_user     String
   user        tb_user    @relation(fields: [id_user], references: [id])
   id_product  String
   product     tb_product @relation(fields: [id_product], references: [id])
   rating      Decimal    @db.Decimal(2, 1)
-  review_text String     @db.Text
+  review_text String?     @db.Text
   created_at  DateTime   @default(now())
   deleted_at  DateTime?
 
