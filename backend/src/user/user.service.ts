@@ -61,11 +61,29 @@ export class UserService {
     return user;
   }
 
+  async findUserByEmail(email: string) {
+    let user = null;
+    try {
+      user = await this.prisma.tb_user.findFirst({
+        where: { email, deleted_at: null },
+      });
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      throw new InternalServerErrorException(
+        'An error occurred while fetching user.',
+      );
+    }
+    
+    if (user === null) throw new NotFoundException('User not found!');
+
+    return user;
+  }
+
   async createUser(userData: CreateUserDto) {
     const { password } = userData;
     let hashedPassword: string;
     try {
-      hashedPassword = await bcrypt.hash(password, 10);
+      hashedPassword = await bcrypt.hash(password, 10);      
     } catch (error) {
       console.error(`Error while hashing password: ${error.message}`);
       throw new InternalServerErrorException('Failed to hash the password.');

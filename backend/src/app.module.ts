@@ -12,10 +12,11 @@ import { ReviewModule } from './review/review.module';
 import { CartModule } from './cart/cart.module';
 import { CartItemModule } from './cart-item/cart-item.module';
 import { BillModule } from './bill/bill.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
-  imports: [UserModule, PrismaModule, SizeModule, ColorModule, CategoryModule, ProductModule, ProductVariationModule, ReviewModule, CartModule, CartItemModule, BillModule],
+  imports: [UserModule, PrismaModule, SizeModule, ColorModule, CategoryModule, ProductModule, ProductVariationModule, ReviewModule, CartModule, CartItemModule, BillModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
