@@ -1,0 +1,46 @@
+/*-----------------------------Info Quality Section---------------------------*/
+.infoQuality {
+    display: flex;
+    width: 100%;
+    height: 270px;
+    background-color: #FAF3EA;
+    align-items: center;
+  }
+  
+  .infoQualityContent {
+    margin-left: 3%;
+    margin-right: 3%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .infoQualityItem {
+    gap: 10px;
+    text-align: left;
+    display: flex;
+  }
+  
+  .infoQualityIcon {
+    width: 60px;
+    height: 60px;
+    color: #242424;
+  }
+  
+  .infoQualityText>h1 {
+    font-family: Poppins;
+    color: #242424;
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 37.5px;
+  }
+  
+  .infoQualityText>p {
+    font-family: Poppins;
+    color: #898989;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+  }
+  
+  /*-----------------------------Info Quality Section End---------------------------*/
