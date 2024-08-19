@@ -22,8 +22,7 @@ export class CartService {
         where: whereCondition,
       });
   
-      if (carts.length === 0) {
-        console.log("THE WARRRRRRRRRRRRRNING");     
+      if (carts.length === 0) {        
         throw new NotFoundException('No Cart was found!');           
       }
   

@@ -22,8 +22,7 @@ model tb_user {
   created_on DateTime    @default(now())
   deleted_at DateTime?
   reviews    tb_review[]
-  carts      tb_cart[]
-  tb_bill    tb_bill[]
+  carts      tb_cart[]  
 }
 
 enum Role {
@@ -151,8 +150,6 @@ model tb_cart_item {
 model tb_bill {
   id             String    @id @default(uuid())
   id_cart        String
-  id_user        String
-  user           tb_user   @relation(fields: [id_user], references: [id])
   cart           tb_cart   @relation(fields: [id_cart], references: [id])
   first_name     String    @db.VarChar(50)
   last_name      String    @db.VarChar(50)
@@ -167,6 +164,5 @@ model tb_bill {
   created_at     DateTime  @default(now())
   deleted_at     DateTime?
 
-  @@index([id_user])
-  @@index([id_cart])
+  @@index([id_cart])  
 }
