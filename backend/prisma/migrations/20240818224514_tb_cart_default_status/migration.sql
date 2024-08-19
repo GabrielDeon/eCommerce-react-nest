@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "tb_cart" ALTER COLUMN "status" DROP NOT NULL,
+ALTER COLUMN "status" SET DEFAULT 'ACTIVE';

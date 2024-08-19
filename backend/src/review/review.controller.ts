@@ -21,14 +21,16 @@ export class ReviewController {
     return this.reviewService.findAllReviews();
   }
 
+  
+  @Get('/product/:id')
+  findReviewsByProductId(@Param('id') id_product: string) {
+    return this.reviewService.findReviewsByProductId(id_product);
+  }
+
+  
   @Get(':id')
   findReview(@Param('id') id: string) {
     return this.reviewService.findReview(id);
-  }
-
-  @Get('/review/:id')
-  findReviewsByProductId(@Param('id') id_product: string){
-    return this.reviewService.findReviewsByProductId(id_product);
   }
 
   @Post()

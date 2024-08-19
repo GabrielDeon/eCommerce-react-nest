@@ -127,7 +127,7 @@ model tb_cart {
   user       tb_user        @relation(fields: [id_user], references: [id])
   created_at DateTime       @default(now())
   deleted_at DateTime?
-  status     Status
+  status     Status?        @default(ACTIVE)
   cart_itens tb_cart_item[]
   bill       tb_bill[]
 

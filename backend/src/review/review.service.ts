@@ -25,7 +25,7 @@ export class ReviewService {
     }
 
     if (reviews.length === 0) {
-      throw new NotFoundException('No Product Variation was found!');
+      throw new NotFoundException('No Review was found!');
     }
 
     return reviews;
@@ -51,25 +51,22 @@ export class ReviewService {
   }
 
   async findReviewsByProductId(id_product: string) {
-    let review = null;
-
     try {
-      review = await this.prisma.tb_review.findMany({
+      const reviews = await this.prisma.tb_review.findMany({
         where: { id_product, deleted_at: null },
       });
+
+      if (reviews.length === 0) {
+        throw new NotFoundException('No reviews found for this product.');
+      }
+
+      return reviews;
     } catch (error) {
-      console.error('Error fetching Reviews by Product Id:', error);
+      console.error('Error fetching reviews by Product ID:', error);
       throw new InternalServerErrorException(
-        `An error occurred while fetching Reviews by product Id. Error: ${error.message}`,
+        `An error occurred while fetching reviews. Error: ${error.message}`,
       );
     }
-
-    if (review === null)
-      throw new NotFoundException(
-        `No Reviews were found for the id_product: ${id_product}`,
-      );
-
-    return review;
   }
 
   async createReview(reviewData: CreateReviewDto) {
