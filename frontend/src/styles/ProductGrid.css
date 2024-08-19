@@ -1,0 +1,166 @@
+/*-----------------------------Grid Controler Section---------------------------*/
+.gridControler {
+    width: 100%;
+    height: 100px;
+    background-color: #F9F1E7;
+    display: flex;
+    align-items: center;
+  }
+  
+  .gridControlerContent {
+    width: 100%;
+    display: flex;
+    margin: 0 7% 0 7%;
+    height: 37px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .gridContent {
+    margin: 0 7% 0 7%;
+    padding-top: 63px;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 33px;
+    justify-content: center;
+  }
+  
+  .filter-options {
+    position: absolute;
+    background-color: rgb(144, 142, 142);
+    background-color: #f9f1e7c6;
+    padding: 5px;
+    left: -5px;
+    border-radius: 10px;
+    z-index: 1000;
+  }
+  
+  .filter-options>button {
+    font-family: Poppins;
+    font-size: 15px;
+    padding: 2px;
+    text-align: left;
+    border: none;
+    border-bottom: 2px solid #B88E2F;
+    transition: 0.4s;
+    border-radius: 5px;
+  }
+  
+  .filter-options>button:hover {
+    background-color: #b1b0b0;
+  }
+  
+  .filterButton {
+    display: flex;
+  }
+  
+  .filterButton,
+  .filterIcon {
+    cursor: pointer;
+    height: 23px;
+    border: none;
+    font-weight: 100;
+    margin-right: 12px;
+  }
+  
+  .filterSpecs {
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 400;
+  }
+  
+  .gccRight {
+    display: flex;
+    align-items: center;
+  }
+  
+  .gccRight>p {
+    margin-right: 17px;
+  }
+  
+  .gccRight select {
+    font-family: Poppins;
+    font-size: 20px;
+    color: #9F9F9F;
+    border: none;
+    padding: 12.5px 15px;
+    cursor: pointer;
+  }
+  
+  .gccRight select:focus {
+    outline: none;
+  }
+  
+  .gccLeft {
+    display: flex;
+  }
+  
+  .gccLeftFilter {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .filterInfo {
+    margin-left: 30px;
+    padding-left: 36px;
+    border-left: 2px solid #9F9F9F;
+  }
+  
+  .filterInfo>p {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+  }
+  
+  /*-----------------------------Grid Pagination Section ---------------------------*/
+  
+  .gridPageControler {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 70px;
+    margin-bottom: 85px;
+    justify-content: center;
+  }
+  
+  .gridPagination {
+    display: flex;
+    gap: 38px;
+  }
+  
+  .gridPagination button {
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 30px;
+    cursor: pointer;
+    border-radius: 7px;
+    border: none;
+  }
+  
+  .gridPagination button:hover {
+    transition: 0.8ms;
+    background-color: rgb(208, 165, 66);
+    color: white;
+  }
+  
+  .gridPagination .pageNumberBtn {
+    height: 60px;
+    width: 60px;
+    background-color: rgba(249, 241, 231, 1);
+  }
+  
+  .pageNumberBtn.active {
+    background-color: rgba(184, 142, 47, 1);
+    color: white;
+  }
+  
+  #paginationNext {
+    height: 60px;
+    width: 98px;
+  }
+  
+  /*-----------------------------Grid Pagination Section End---------------------------*/
