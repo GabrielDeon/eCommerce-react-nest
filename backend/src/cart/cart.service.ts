@@ -42,6 +42,7 @@ export class CartService {
     try {
       cart = await this.prisma.tb_cart.findUnique({
         where: { id, deleted_at: null },
+        include: { cart_itens: true },
       });
     } catch (error) {
       console.error('Error fetching Cart:', error);

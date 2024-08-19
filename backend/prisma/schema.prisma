@@ -14,12 +14,12 @@ datasource db {
 }
 
 model tb_user {
-  id         String       @id @default(uuid())
-  username   String       @db.VarChar(50)
-  email      String       @unique @db.VarChar(255)
+  id         String      @id @default(uuid())
+  username   String      @db.VarChar(50)
+  email      String      @unique @db.VarChar(255)
   password   String
-  role       Role         @default(USER)
-  created_on DateTime     @default(now())
+  role       Role        @default(USER)
+  created_on DateTime    @default(now())
   deleted_at DateTime?
   reviews    tb_review[]
   carts      tb_cart[]
@@ -67,7 +67,7 @@ model tb_product {
   short_description   String                 @db.VarChar(50)
   description         String                 @db.VarChar(255)
   base_price          Decimal                @db.Decimal(12, 2)
-  discount_percentage Decimal?               @db.Decimal(5, 2) @default(0)
+  discount_percentage Decimal?               @default(0) @db.Decimal(5, 2)
   final_price         Decimal                @db.Decimal(12, 2)
   tags                String                 @db.VarChar(30)
   image_1             String                 @db.VarChar(255)
@@ -113,7 +113,7 @@ model tb_review {
   id_product  String
   product     tb_product @relation(fields: [id_product], references: [id])
   rating      Decimal    @db.Decimal(2, 1)
-  review_text String?     @db.Text
+  review_text String?    @db.Text
   created_at  DateTime   @default(now())
   deleted_at  DateTime?
 
@@ -138,8 +138,10 @@ model tb_cart_item {
   id                   String               @id @default(uuid())
   id_cart              String
   id_product_variation String
+  quantity             Int
+  price_at_addition    Decimal              @db.Decimal(12, 2)
   cart                 tb_cart              @relation(fields: [id_cart], references: [id])
-  product_var          tb_product_variation @relation(fields: [id_product_variation], references: [id])
+  product_variation    tb_product_variation @relation(fields: [id_product_variation], references: [id])
   updated_at           DateTime             @updatedAt
   deleted_at           DateTime?
 
