@@ -1,4 +1,4 @@
-import './PageTitle.css';
+import '../styles/PageTitle.css';
 
 function PageTitle() {
     return (

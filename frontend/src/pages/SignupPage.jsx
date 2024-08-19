@@ -1,17 +1,23 @@
-/* eslint-disable react/no-unescaped-entities */
-import "../styles/SigninPage.css";
+import "../styles/SignupPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faApple, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
-export default function SigninPage() {
+export default function SignUpPage() {
   return (
     <div className="page">
       <div className="form">
         <div className="formContent">
-          <h1>Welcome Back!</h1>
+          <h1>Get Started Now</h1>
           <p className="forminstruction">
             Enter your credentials to access your account
-          </p>          
+          </p>
+
+          <label className="inputLabel">Name</label>
+          <input
+            className="input"
+            type="text"
+            placeholder="Enter your name"
+          ></input>
 
           <label className="inputLabel">Email Address</label>
           <input
@@ -27,14 +33,14 @@ export default function SigninPage() {
             placeholder="Enter your password"
           ></input>
 
-          <div className="rememberme">
+          <div className="terms">
             <p>
-              Remember for 30 days
+              I agree to the <a href="">terms & policy</a>
             </p>
             <input type="checkbox" id="terms-checkbox" />
           </div>
 
-          <button id="btnSignin">Login</button>
+          <button id="btnSignup">Signup</button>
 
           <div className="OrText">
             <p>Or</p>
@@ -51,7 +57,7 @@ export default function SigninPage() {
           </div>
           <div className="SingInRedirection">
             <p>
-              Don't have an account? <a href="">Sign In</a>
+              Have an account? <a href="">Sign In</a>
             </p>
           </div>
         </div>

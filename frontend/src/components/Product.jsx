@@ -5,7 +5,7 @@ import {
   faArrowRightArrowLeft,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
-import './Product.css';
+import '../styles/Product.css';
 
 //Product class
 class productObject {

@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import { ProductTemplate, productArray } from "./Product";
 import React from "react";
-import './ProductGrid.css';
+import '../styles/ProductGrid.css';
 
 function ProductGrid() {
   //Hooks

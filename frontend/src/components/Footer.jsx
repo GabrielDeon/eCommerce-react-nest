@@ -1,5 +1,5 @@
 import React from "react";
-import './Footer.css';
+import "../styles/Footer.css";
 
 function Footer() {
   //Hooks
@@ -23,9 +23,10 @@ function Footer() {
 
   //Regexp function to validate email
   function validateEmail($email) {
+    // eslint-disable-next-line no-useless-escape
     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     return reg.test($email);
-  }  
+  }
 
   return (
     <div className="footer">
@@ -79,9 +80,16 @@ function Footer() {
                   name="email"
                   value={email}
                   onChange={handleEmailChange}
-                ></input>                
+                ></input>
                 <button type="submit">SUBSCRIBE</button>
-                {emailStatus && <span className={emailStatus}> {emailStatus == "sucess"? "Email subscribed!": "Invalid Email!" }  </span>}
+                {emailStatus && (
+                  <span className={emailStatus}>
+                    {" "}
+                    {emailStatus == "sucess"
+                      ? "Email subscribed!"
+                      : "Invalid Email!"}{" "}
+                  </span>
+                )}
               </form>
             </div>
           </div>

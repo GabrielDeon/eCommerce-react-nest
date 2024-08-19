@@ -5,7 +5,7 @@ import {
   faBoxesStacked,
   faHeadset,
 } from "@fortawesome/free-solid-svg-icons";
-import './InfoQuality.css'
+import '../styles/InfoQuality.css'
 
 function InfoQuality() {
   return (
