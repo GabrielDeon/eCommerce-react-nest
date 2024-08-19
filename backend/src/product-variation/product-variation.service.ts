@@ -54,25 +54,23 @@ export class ProductVariationService {
   }
 
   async findProductVariationsByProductId(id_product: string) {
-    let productVariation = null;
-
     try {
-      productVariation = await this.prisma.tb_product_variation.findMany({
+      const productVariation = await this.prisma.tb_product_variation.findMany({
         where: { id_product, deleted_at: null },
       });
+
+      if (productVariation.length === 0)
+        throw new NotFoundException(
+          `No Product Variations were found for the id_product: ${id_product}`,
+        );
+
+      return productVariation;
     } catch (error) {
       console.error('Error fetching Product Variation by Product Id:', error);
       throw new InternalServerErrorException(
         `An error occurred while fetching Product Variation by product Id. Error: ${error.message}`,
       );
     }
-
-    if (productVariation === null)
-      throw new NotFoundException(
-        `No Product Variations were found for the id_product: ${id_product}`,
-      );
-
-    return productVariation;
   }
 
   async createProductVariation(

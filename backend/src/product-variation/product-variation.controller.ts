@@ -14,15 +14,15 @@ export class ProductVariationController {
     return this.productVariationService.findAllProductVariations();
   }
 
-  @Get(':id')
-  findProductVariation(@Param('id') id: string) {
-    return this.productVariationService.findProductVariation(id);
-  }
-
   @Get('/product/:id')
   findProductVariationByProductId(@Param('id') id_product: string) {
     return this.productVariationService.findProductVariationsByProductId(id_product);
   }
+
+  @Get(':id')
+  findProductVariation(@Param('id') id: string) {
+    return this.productVariationService.findProductVariation(id);
+  }  
 
   @Post()
   createProductVariation(@Body(ValidationPipe) createProductVariationDto: CreateProductVariationDto) {

@@ -29,16 +29,18 @@ export class UserService {
           where: { deleted_at: null },
         });
       }
+
+      if (users.length === 0) {
+        throw new NotFoundException('No user was found!');
+      }
+
+      return users;
     } catch (error) {
       console.error('Error fetching users:', error);
-      throw new InternalServerErrorException('An error occurred while fetching users.')
+      throw new InternalServerErrorException(
+        'An error occurred while fetching users.',
+      );
     }
-
-    if (users.length === 0) {
-      throw new NotFoundException('No user was found!');
-    }
-
-    return users;
   }
 
   async findUser(id: string) {
@@ -46,11 +48,13 @@ export class UserService {
     try {
       user = await this.prisma.tb_user.findUnique({
         where: { id: id, deleted_at: null },
-      });      
+      });
     } catch (error) {
       console.error('Error fetching user:', error);
-      throw new InternalServerErrorException('An error occurred while fetching user.');      
-    }    
+      throw new InternalServerErrorException(
+        'An error occurred while fetching user.',
+      );
+    }
 
     if (user === null) throw new NotFoundException('User not found!');
 
