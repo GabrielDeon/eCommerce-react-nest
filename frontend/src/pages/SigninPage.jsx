@@ -2,8 +2,59 @@
 import "../styles/SigninPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faApple, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 export default function SigninPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:3000/auth/login", {
+        email,
+        password,
+        rememberme: remember,
+      });
+
+      const { access_token } = response.data;
+
+      const decodedToken = jwtDecode(access_token);
+
+      const expiration = decodedToken.exp
+        ? new Date(decodedToken.exp * 1000)
+        : 0;
+
+      Cookies.set("token", access_token, { expires: expiration });
+
+      navigate("/shop");
+    } catch (err) {
+      console.error(`Error signing in: ` + err);
+      setError("Invalid credentials or server error");
+    }
+  };
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+
+    if (token) {
+      const dateNow = Date.now() / 1000;
+      const { exp } = jwtDecode(token);
+
+      if (dateNow < exp) {
+        navigate("/shop");
+      }
+    }
+  }, [navigate]);
+
   return (
     <div className="page">
       <div className="form">
@@ -11,30 +62,47 @@ export default function SigninPage() {
           <h1>Welcome Back!</h1>
           <p className="forminstruction">
             Enter your credentials to access your account
-          </p>          
+          </p>
 
           <label className="inputLabel">Email Address</label>
           <input
+            value={email}
             className="input"
             type="text"
             placeholder="Enter your email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           ></input>
 
-          <label className="inputLabel secret">Password</label>
+          <label className="inputLabel">Password</label>
           <input
+            value={password}
             className="input"
             type="password"
             placeholder="Enter your password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
           ></input>
 
+          {error && <p className="error">{error}</p>}
+
           <div className="rememberme">
-            <p>
-              Remember for 30 days
-            </p>
-            <input type="checkbox" id="terms-checkbox" />
+            <p>Remember for 30 days</p>
+            <input
+              value={remember}
+              type="checkbox"
+              id="terms-checkbox"
+              onChange={(e) => {
+                setRemember(e.target.checked);
+              }}
+            />
           </div>
 
-          <button id="btnSignin">Login</button>
+          <button id="btnSignin" onClick={handleSubmit}>
+            Login
+          </button>
 
           <div className="OrText">
             <p>Or</p>
@@ -51,7 +119,7 @@ export default function SigninPage() {
           </div>
           <div className="SingInRedirection">
             <p>
-              Don't have an account? <a href="">Sign In</a>
+              Don't have an account? <Link to="/signup">Sign Up</Link>
             </p>
           </div>
         </div>

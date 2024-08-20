@@ -1,6 +1,7 @@
 import "../styles/SignupPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faApple, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function SignUpPage() {
   return (
@@ -57,7 +58,7 @@ export default function SignUpPage() {
           </div>
           <div className="SingInRedirection">
             <p>
-              Have an account? <a href="">Sign In</a>
+              Have an account? <Link to="/">Sign In</Link>
             </p>
           </div>
         </div>
