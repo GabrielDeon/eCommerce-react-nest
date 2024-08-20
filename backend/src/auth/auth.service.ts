@@ -28,7 +28,7 @@ export class AuthService {
         throw new UnauthorizedException('Incorrect password');
       }
 
-      const expiresIn = signInDto.rememberme ? '30d' : '60s';
+      const expiresIn = signInDto.rememberme ? '30d' : '1h';
 
       const payload = { sub: user.id, username: user.username };
       return {
