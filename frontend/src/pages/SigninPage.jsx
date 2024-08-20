@@ -2,11 +2,12 @@
 import "../styles/SigninPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faApple, faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
+import AuthenticateToken from "../utils/TokenValidation";
 
 export default function SigninPage() {
   const [email, setEmail] = useState("");
@@ -14,6 +15,8 @@ export default function SigninPage() {
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  AuthenticateToken();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -42,19 +45,6 @@ export default function SigninPage() {
     }
   };
 
-  useEffect(() => {
-    const token = Cookies.get("token");
-
-    if (token) {
-      const dateNow = Date.now() / 1000;
-      const { exp } = jwtDecode(token);
-
-      if (dateNow < exp) {
-        navigate("/shop");
-      }
-    }
-  }, [navigate]);
-
   return (
     <div className="page">
       <div className="form">
@@ -63,46 +53,49 @@ export default function SigninPage() {
           <p className="forminstruction">
             Enter your credentials to access your account
           </p>
+          <form className="formContent" onSubmit={handleSubmit}>
+            <label className="inputLabel">Email Address</label>
+            <input
+              value={email}
+              className="input"
+              type="text"
+              placeholder="Enter your email"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              required
+            ></input>
 
-          <label className="inputLabel">Email Address</label>
-          <input
-            value={email}
-            className="input"
-            type="text"
-            placeholder="Enter your email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          ></input>
+            <label className="inputLabel">Password</label>
+            <input
+              value={password}
+              className="input"
+              type="password"
+              placeholder="Enter your password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              required
+            ></input>
 
-          <label className="inputLabel">Password</label>
-          <input
-            value={password}
-            className="input"
-            type="password"
-            placeholder="Enter your password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          ></input>
+            <div className="rememberme">
+              <p>Remember for 30 days</p>
+              <input
+                value={remember}
+                type="checkbox"
+                id="terms-checkbox"
+                onChange={(e) => {
+                  setRemember(e.target.checked);
+                }}
+              />
+            </div>
+
+            <button type="submit" id="btnSignin">
+              Login
+            </button>
+          </form>
 
           {error && <p className="error">{error}</p>}
-
-          <div className="rememberme">
-            <p>Remember for 30 days</p>
-            <input
-              value={remember}
-              type="checkbox"
-              id="terms-checkbox"
-              onChange={(e) => {
-                setRemember(e.target.checked);
-              }}
-            />
-          </div>
-
-          <button id="btnSignin" onClick={handleSubmit}>
-            Login
-          </button>
 
           <div className="OrText">
             <p>Or</p>

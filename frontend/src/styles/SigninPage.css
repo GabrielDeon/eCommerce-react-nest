@@ -3,16 +3,16 @@
     height: 100vh;
 }
 
-.form{
+.form {
     width: 50%;
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
 }
 
 .formContent {
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
 }
 
 .forminstruction {
@@ -155,11 +155,16 @@
 }
 
 .leftSideImage {
-    flex: 1;    
+    flex: 1;
     background-image: url('../assets/images/plant.jpg');
     background-size: cover;
     background-position: center;
     border: none;
     border-radius: 45px 0px 0px 45px;
 
+}
+
+.error {
+    display: flex;
+    justify-content: center;
 }
