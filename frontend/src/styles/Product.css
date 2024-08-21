@@ -38,21 +38,7 @@
     background-color: #E97171;
   }
   
-  .productImage.leviosaImage {
-    background-image: url('/src/assets/images/leviosaImage.png');
-  }
   
-  .productImage.lolitoImage {
-    background-image: url('/src/assets/images/lolitoImage.png');
-  }
-  
-  .productImage.respiraImage {
-    background-image: url('/src/assets/images/respiraImage.png');
-  }
-  
-  .productImage.slytherImage {
-    background-image: url('/src/assets/images/slytherImage.png');
-  }
   
   .productTextContent>h1 {
     font-family: Poppins;

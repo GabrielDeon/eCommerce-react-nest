@@ -26,9 +26,9 @@ export class ProductController {
     @Query('page') page: number = 1,
     @Query('perPage') perPage: number = 16,
     @Query('filter') filter: string = 'none',
+    @Query('sortOrder') sortOrder: string = 'asc',
   ) {
-    
-    return this.productService.findAllProducts(page, perPage, filter);
+    return this.productService.findAllProducts(page, perPage, filter, sortOrder);
   }
 
   @Get(':id')

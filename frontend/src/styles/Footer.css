@@ -107,11 +107,11 @@
     border-bottom: 1px solid black;
   }
   
-  .error {
+  .errorr {
     font-size: 14px;
     display: block;
     color: red;
-    margin-top: 5px;
+    margin-top: 5px;    
   }
   
   .sucess {
