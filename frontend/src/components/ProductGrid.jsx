@@ -1,19 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
-import { ProductTemplate, productArray } from "./Product";
+import { ProductTemplate } from "./Product";
 import React from "react";
-import '../styles/ProductGrid.css';
+import axios from "axios";
+import "../styles/ProductGrid.css";
 
 function ProductGrid() {
   //Hooks
   const [showOptions, setShowOptions] = React.useState(false);
   const [selectedFilter, setSelectedFilter] = React.useState("none");
-  const [perPage, setPerPage] = React.useState(10);
+  const [perPage, setPerPage] = React.useState(16);
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [totalPages, setTotalPages] = React.useState(
-    Math.ceil(productArray.length / perPage)
-  );
-  const [endIndex, setEndIndex] = React.useState(currentPage * perPage);
+  const [totalPages, setTotalPages] = React.useState(1);
+  const [endIndex, setEndIndex] = React.useState(1);
+  const [productArray, setProductArray] = React.useState([]);
+  const [totalProductNumber, setTotalProductNumber] = React.useState(1);
 
   //Handlers
   const handleButtonClick = () => {
@@ -30,41 +31,21 @@ function ProductGrid() {
   };
 
   React.useEffect(() => {
-    //Total Pages hook
-    const tp = Math.ceil(productArray.length / perPage);
-    setTotalPages(tp);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/product");
+        let { totalProducts, ...rest } = response.data;
 
-    //End Index
-    setEndIndex(currentPage * perPage);
+        setTotalProductNumber(totalProducts);
+        setProductArray(Object.values(rest));
+        setTotalPages(Math.ceil(totalProductNumber / perPage));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, [perPage, currentPage, selectedFilter]);
-
-  //Array that determines what items should be shown
-  let currentItems = [];
-  let sortedProducts = [...productArray];
-  if (selectedFilter == "price") {
-    currentItems = sortedProducts
-      .sort((a, b) => {
-        const priceA = parseFloat(a.price.replace(/\./g, ""));
-        const priceB = parseFloat(b.price.replace(/\./g, ""));
-        return priceB - priceA;
-      })
-      .slice(
-        (currentPage - 1) * perPage,
-        Math.min(endIndex, productArray.length)
-      );
-  } else if (selectedFilter == "name") {
-    currentItems = sortedProducts
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .slice(
-        (currentPage - 1) * perPage,
-        Math.min(endIndex, productArray.length)
-      );
-  } else if (selectedFilter == "none") {
-    currentItems = productArray.slice(
-      (currentPage - 1) * perPage,
-      Math.min(endIndex, productArray.length)
-    );
-  }
 
   return (
     <div className="grid">
@@ -92,9 +73,9 @@ function ProductGrid() {
             </div>
             <div className="filterInfo">
               <p>
-                Showing {(currentPage - 1) * perPage + 1}-
-                {Math.min(endIndex, productArray.length)} of{" "}
-                {productArray.length} results
+                Showing Showing {(currentPage - 1) * perPage + 1} -{" "}
+                {Math.min(currentPage * perPage, productArray.length)} of{" "}
+                {totalProductNumber} results
               </p>
             </div>
           </div>
@@ -105,24 +86,30 @@ function ProductGrid() {
                 value={perPage}
                 onChange={(e) => setPerPage(Number(e.target.value))}
               >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={15}>15</option>
-                <option value={20}>20</option>
-                <option value={25}>25</option>
+                <option value={8}>8</option>
+                <option value={16}>16</option>
+                <option value={24}>24</option>
+                <option value={32}>32</option>
               </select>
             </div>
           </div>
         </div>
       </div>
       <div className="gridContent">
-        {currentItems.map((item) => {
+        {productArray.map((item) => {
           return <ProductTemplate key={item.id} props={item} />;
         })}
       </div>
       <div className="gridPageControler">
         <div className="gridPagination">
-          {Array.from(Array(totalPages), (item, index) => {
+          <button
+            id="paginationPrev"
+            onClick={() => handlePageClick(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          {/* {Array.from(Array(totalPages), (item, index) => {
             return (
               <button
                 className={`pageNumberBtn ${
@@ -134,7 +121,7 @@ function ProductGrid() {
                 {index + 1}
               </button>
             );
-          })}
+          })} */}
           <button
             id="paginationNext"
             onClick={() => handlePageClick(currentPage + 1)}

@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFiles,
   UseInterceptors,
   ValidationPipe,
@@ -21,8 +22,13 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  findAllProducts() {
-    return this.productService.findAllProducts();
+  findAllProducts(
+    @Query('page') page: number = 1,
+    @Query('perPage') perPage: number = 16,
+    @Query('filter') filter: string = 'none',
+  ) {
+    
+    return this.productService.findAllProducts(page, perPage, filter);
   }
 
   @Get(':id')
@@ -43,7 +49,7 @@ export class ProductController {
         throw new BadRequestException(`Invalid file type: ${file.mimetype}`);
       }
     }
-    
+
     return this.productService.createBaseProduct(
       createProductDto,
       productImages,

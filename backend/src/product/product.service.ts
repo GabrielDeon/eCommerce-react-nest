@@ -13,13 +13,30 @@ import * as path from 'path';
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAllProducts() {
+  async findAllProducts(page: number, perPage: number, filter: string) {
+    const skip = (page - 1) * perPage;
+    const take = perPage;
+
+    let orderBy;
+
+    if (filter === 'price') {
+      orderBy = { price: 'desc' };
+    } else if (filter === 'name') {
+      orderBy = { name: 'asc' };
+    } else {
+      orderBy = undefined;
+    }
+
     let products;
     try {
       products = await this.prisma.tb_product.findMany({
         where: { deleted_at: null },
         include: { category: true },
+        skip,
+        take,
+        orderBy,
       });
+      
     } catch (error) {
       console.error('Error fetching products:', error);
       throw new InternalServerErrorException(
@@ -31,7 +48,9 @@ export class ProductService {
       throw new NotFoundException('No product was found!');
     }
 
-    return products;
+    const totalProducts = await this.countProducts()    
+
+    return {totalProducts, ...products};
   }
 
   async findProduct(id: string) {
@@ -150,6 +169,19 @@ export class ProductService {
       console.error(`Error hard-deleting a product: ${error.message}`);
       throw new InternalServerErrorException(
         'Failed to hard-delete a product!',
+      );
+    }
+  }
+
+  async countProducts() {
+    try {
+      return await this.prisma.tb_product.count({
+        where: { deleted_at: null },
+      });
+    } catch (error) {
+      console.error('Error counting products:', error);
+      throw new InternalServerErrorException(
+        'An error occurred while counting products.',
       );
     }
   }
