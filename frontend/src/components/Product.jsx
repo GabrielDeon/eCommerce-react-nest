@@ -376,9 +376,9 @@ function ProductTemplate({ props }) {
   if (props.isNew) {
     className += " newProductTag";
     tagText = "New";
-  } else if (props.discount) {
+  } else if (props.discount_percentage != 0) {
     className += " discountedTag";
-    tagText = "-" + props.discount.toString() + "%";
+    tagText = "-" + props.discount_percentage.toString() + "%";
   } else {
     className = "productTag";
   }
@@ -390,12 +390,12 @@ function ProductTemplate({ props }) {
       </div>
       <div className="productText">
         <div className="productTextContent">
-          <h1>{props.name}</h1>
-          <p>{props.description}</p>
+          <h1>{props.product_name}</h1>
+          <p>{props.short_description}</p>
           <div className="productPrices">
-            <h2>Rp {props.price}</h2>
-            {props.priceWithoutDiscount && (
-              <h3>Rp {props.priceWithoutDiscount}</h3>
+            <h2>Rp {props.final_price}</h2>
+            {props.base_price && (
+              <h3>Rp {props.base_price}</h3>
             )}
           </div>
         </div>

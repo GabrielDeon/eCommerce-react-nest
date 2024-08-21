@@ -158,9 +158,10 @@
     color: white;
   }
   
-  #paginationNext {
+  #paginationNext, #paginationPrev {
     height: 60px;
     width: 98px;
   }
+
   
   /*-----------------------------Grid Pagination Section End---------------------------*/
