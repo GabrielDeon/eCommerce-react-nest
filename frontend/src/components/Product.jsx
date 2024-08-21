@@ -5,7 +5,8 @@ import {
   faArrowRightArrowLeft,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
-import '../styles/Product.css';
+import "../styles/Product.css";
+import React from "react";
 
 //Product class
 class productObject {
@@ -385,7 +386,15 @@ function ProductTemplate({ props }) {
 
   return (
     <div className="product">
-      <div className={"productImage " + props.image}>
+      <div
+        className="productImage"
+        style={{
+          background: `url(http://localhost:3000/product-image/${props.image_1})`,
+          backgroundSize: "contain",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <div className={className}>{tagText}</div>
       </div>
       <div className="productText">
@@ -394,9 +403,7 @@ function ProductTemplate({ props }) {
           <p>{props.short_description}</p>
           <div className="productPrices">
             <h2>Rp {props.final_price}</h2>
-            {props.base_price && (
-              <h3>Rp {props.base_price}</h3>
-            )}
+            {props.base_price && <h3>Rp {props.base_price}</h3>}
           </div>
         </div>
       </div>
@@ -427,4 +434,4 @@ function ProductTemplate({ props }) {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export { ProductTemplate, productArray};
+export { ProductTemplate, productArray };

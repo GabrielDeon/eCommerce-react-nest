@@ -13,18 +13,17 @@ import * as path from 'path';
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAllProducts(page: number, perPage: number, filter: string) {
-    const skip = (page - 1) * perPage;
-    const take = perPage;
+  async findAllProducts(page: number, perPage: number, filter: string, sortOrder: string) {
+    const offset = (page - 1) * perPage;
 
     let orderBy;
 
-    if (filter === 'price') {
-      orderBy = { price: 'desc' };
-    } else if (filter === 'name') {
-      orderBy = { name: 'asc' };
-    } else {
+    if (filter === 'none') {
       orderBy = undefined;
+    } else if (filter === 'name') {
+      orderBy = { product_name: sortOrder };
+    } else if (filter === 'price') {
+      orderBy = { final_price: sortOrder };
     }
 
     let products;
@@ -32,11 +31,10 @@ export class ProductService {
       products = await this.prisma.tb_product.findMany({
         where: { deleted_at: null },
         include: { category: true },
-        skip,
-        take,
+        skip: offset,
+        take: +perPage,
         orderBy,
       });
-      
     } catch (error) {
       console.error('Error fetching products:', error);
       throw new InternalServerErrorException(
@@ -48,9 +46,18 @@ export class ProductService {
       throw new NotFoundException('No product was found!');
     }
 
-    const totalProducts = await this.countProducts()    
-
-    return {totalProducts, ...products};
+    let totalProducts;
+    let totalPages;
+    try {
+      totalProducts = await this.countProducts();
+      totalPages = Math.ceil(totalProducts / perPage);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error while counting products! Error:${error.message}`,
+      );
+    } finally {
+      return { totalProducts, totalPages, ...products };
+    }
   }
 
   async findProduct(id: string) {
@@ -85,7 +92,7 @@ export class ProductService {
     const fileUrls = productImages.map((file) => {
       const filePath = path.join(uploadPath, file.originalname);
       fs.writeFileSync(filePath, file.buffer);
-      return `/Products/Images/${file.originalname}`;
+      return `${file.originalname}`;
     });
 
     const { base_price, discount_percentage, id_category, ...rest } =

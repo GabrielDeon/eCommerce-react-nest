@@ -17,7 +17,7 @@ function Footer() {
     if (validateEmail(email)) {
       setEmailStatus("sucess");
     } else {
-      setEmailStatus("error");
+      setEmailStatus("errorr");
     }
   };
 
