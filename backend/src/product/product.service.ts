@@ -8,12 +8,21 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as fs from 'fs';
 import * as path from 'path';
+import { ProductVariationService } from 'src/product-variation/product-variation.service';
 
 @Injectable()
 export class ProductService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly productVariationService: ProductVariationService,
+  ) {}
 
-  async findAllProducts(page: number, perPage: number, filter: string, sortOrder: string) {
+  async findAllProducts(
+    page: number,
+    perPage: number,
+    filter: string,
+    sortOrder: string,
+  ) {
     const offset = (page - 1) * perPage;
 
     let orderBy;
@@ -131,7 +140,19 @@ export class ProductService {
     }
 
     try {
-      return await this.prisma.tb_product.create({ data: newProduct });
+      const product = await this.prisma.tb_product.create({ data: newProduct });
+
+      //Create a standart variation to each product
+      await this.productVariationService.createProductVariation({
+        id_product: product.id,
+        id_size: '00000000-0000-0000-0000-000000000001',
+        id_color: '00000000-0000-0000-0000-000000000002',
+        stock: 0,
+        base_price: base_price,
+        discount_percentage: validDiscountPercentage,
+      });
+
+      return product;
     } catch (error) {
       console.error(`Error creating a new product: ${error.message}`);
       throw new InternalServerErrorException(
