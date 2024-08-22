@@ -76,7 +76,14 @@ export class ProductVariationService {
   async createProductVariation(
     productVariationData: CreateProductVariationDto,
   ) {
-    const { id_product, id_size, id_color, quantity } = productVariationData;
+    const {
+      id_product,
+      id_size,
+      id_color,
+      stock,
+      base_price,
+      discount_percentage,
+    } = productVariationData;
 
     try {
       if (id_product) {
@@ -97,8 +104,8 @@ export class ProductVariationService {
         });
       }
 
-      if (quantity <= 0) {
-        throw new BadRequestException('Quantity must be greater than zero.');
+      if (stock < 0) {
+        throw new BadRequestException('Stock cannot be negative.');
       }
     } catch (error) {
       console.error('Validation error on createProductVariation:', error);
@@ -109,8 +116,19 @@ export class ProductVariationService {
 
     const newSKU = await this.generateSKU(id_product, id_size, id_color);
 
+    let validDiscountPercentage = 0;
+    if (discount_percentage >= 0 && discount_percentage <= 100) {
+      validDiscountPercentage = discount_percentage;
+    }
+
+    const final_price =
+      Number(base_price) - (Number(base_price) * validDiscountPercentage) / 100;
+
     const newProductVariation = {
-      quantity,
+      base_price,
+      discount_percentage: validDiscountPercentage,
+      final_price,
+      stock,
       SKU: newSKU,
       product: {
         connect: { id: id_product },

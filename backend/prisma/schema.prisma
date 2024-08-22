@@ -22,7 +22,7 @@ model tb_user {
   created_on DateTime    @default(now())
   deleted_at DateTime?
   reviews    tb_review[]
-  carts      tb_cart[]  
+  carts      tb_cart[]
 }
 
 enum Role {
@@ -86,20 +86,24 @@ model tb_product {
 }
 
 model tb_product_variation {
-  id         String         @id @default(uuid())
-  id_product String
-  id_size    String?
-  id_color   String?
-  product    tb_product     @relation(fields: [id_product], references: [id])
-  size       tb_size?       @relation(fields: [id_size], references: [id])
-  color      tb_color?      @relation(fields: [id_color], references: [id])
-  quantity   Int
-  SKU        String         @unique @db.VarChar(7)
-  updated_at DateTime       @updatedAt
-  deleted_at DateTime?
-  cart_item  tb_cart_item[]
+  id                  String         @id @default(uuid())
+  id_product          String
+  id_size             String?
+  id_color            String?
+  product             tb_product     @relation(fields: [id_product], references: [id])
+  size                tb_size?       @relation(fields: [id_size], references: [id])
+  color               tb_color?      @relation(fields: [id_color], references: [id])
+  stock               Int
+  SKU                 String         @unique @db.VarChar(7)
+  base_price          Decimal        @db.Decimal(12, 2)
+  discount_percentage Decimal?       @default(0) @db.Decimal(5, 2)
+  final_price         Decimal        @db.Decimal(12, 2)
+  updated_at          DateTime       @updatedAt
+  deleted_at          DateTime?
+  cart_item           tb_cart_item[]
 
   @@unique([id_product, id_size, id_color])
+  @@index([final_price])
   @@index([id_product])
   @@index([id_size])
   @@index([id_color])
@@ -164,5 +168,5 @@ model tb_bill {
   created_at     DateTime  @default(now())
   deleted_at     DateTime?
 
-  @@index([id_cart])  
+  @@index([id_cart])
 }
