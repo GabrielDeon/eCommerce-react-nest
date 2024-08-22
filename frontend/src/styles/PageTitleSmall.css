@@ -1,0 +1,13 @@
+.smallPageTitle {
+    display: flex;
+    align-items: center;
+    justify-items: left;
+    height: 100px;
+    background-color: rgba(249, 241, 231, 1);
+    gap: 15px;
+    padding-left: 7%;
+}
+
+.sptPath {
+    color: rgba(159, 159, 159, 1);    
+}

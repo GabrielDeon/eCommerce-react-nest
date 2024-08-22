@@ -1,0 +1,198 @@
+.pdContent {
+    margin-top: 42px;
+    display: flex;
+    gap: 80px;
+    justify-content: left;
+    margin-left: 15%;
+
+}
+
+.pdcDetails {
+    display: flex;
+    flex-direction: column;
+}
+
+.pdcDetails>h1 {
+    font-family: Poppins;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 63px;
+    text-align: left;
+    color: rgba(0, 0, 0, 1);
+}
+
+.pdcDetails>h2 {
+    font-family: Poppins;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 36px;
+    text-align: left;
+    color: rgba(159, 159, 159, 1);
+}
+
+.pdcdStarReview {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.pdcdDescription {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-family: Poppins;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 19.5px;
+    text-align: left;
+    color: rgba(0, 0, 0, 1);
+    text-align: left;
+    max-width: 400px;
+}
+
+.detailType {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    text-align: left;
+    color: rgba(159, 159, 159, 1);
+}
+
+.pdcdControls {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.number-input {
+    height: 64px;
+    text-align: center;
+    width: 60px;
+    border: none;
+}
+
+.decrement-btn,
+.increment-btn {
+    border: none;
+    background-color: white;
+    border-radius: 50px;
+    color: black;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+}
+
+.decrement-btn:hover,
+.increment-btn:hover {
+    background-color: #B88E2F;
+    color: whitesmoke;
+    border: none;
+}
+
+/* Hide spinners for Webkit browsers (Chrome, Safari) */
+.number-input::-webkit-inner-spin-button,
+.number-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide spinners for Firefox */
+.number-input {
+    -moz-appearance: textfield;
+}
+
+/* Hide spinners for IE and Edge */
+.number-input::-ms-clear {
+    display: none;
+}
+
+.btnAddToCart {
+    background-color: white;
+    cursor: pointer;
+    margin-left: 20px;
+    padding: 17px 48px 17px 48px;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 1);
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 30px;
+    text-align: center;
+}
+
+.btnAddToCart:hover {
+    background-color: #B88E2F;
+    color: whitesmoke;
+    border: none;
+}
+
+.pdcdExtras {
+    padding-right: 400px;
+    margin-top: 50px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(217, 217, 217, 1);
+    align-items: center;
+    display: flex;
+    gap: 16px;
+}
+
+.pdcdExtrasLeft,
+.pdcdExtrasMiddle,
+.pdcdExtrasRight {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pdcdExtras p {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    color: rgba(159, 159, 159, 1);
+}
+
+.pdcdExtrasMidias {
+    display: flex;
+    gap: 20px;
+}
+
+.pdcImages {
+    display: flex;
+    gap: 30px;
+}
+
+.pdciSecondaryImgs {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.pdciMainImage {
+    width: 423px;
+    height: 500px;
+    border-radius: 10px;
+    background-color: rgba(249, 241, 231, 1);
+}
+
+.addremoveBtn {
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.pdcdColors, .pdcdSizes{
+    margin-top: 12px;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.pdcdSizes{
+    margin-bottom: 15px;
+}

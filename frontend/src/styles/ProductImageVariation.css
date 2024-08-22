@@ -1,0 +1,14 @@
+.productImageVariation {
+    width: 75px;
+    height: 79px;
+    background-color: rgba(249, 241, 231, 1);    
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 1px;
+}
+
+.productImageVariation:hover {    
+    padding: 0px;
+    background-color: rgb(240, 229, 215);    
+    border: 1px solid black;
+}

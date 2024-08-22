@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
-import { ProductTemplate } from "./Product";
+import { ProductGridTemplate } from "./ProductGridTemplate";
 import React, { useRef } from "react";
 import axios from "axios";
 import "../styles/ProductGrid.css";
@@ -125,7 +125,7 @@ function ProductGrid() {
       </div>
       <div className="gridContent">
         {productArray.map((item) => {
-          return <ProductTemplate key={item.id} props={item} />;
+          return <ProductGridTemplate key={item.id} props={item} />;
         })}
       </div>
       <div className="gridPageControler">

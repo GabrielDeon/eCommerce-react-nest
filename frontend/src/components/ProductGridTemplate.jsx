@@ -6,36 +6,10 @@ import {
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Product.css";
-
-//Product class
-class productObject {
-  constructor(
-    id,
-    name,
-    description,
-    price,
-    image,
-    discount = 0,
-    isNew = false,
-    priceWithoutDiscount = ""
-  ) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.price = price;
-    this.image = image;
-    this.discount = discount;
-    this.isNew = isNew;
-    this.priceWithoutDiscount = priceWithoutDiscount;
-
-    if (discount >= 100) {
-      this.discount = 99;
-    }
-  }
-}
+import { Link } from "react-router-dom";
 
 //Product Template that uses the Product class object
-function ProductTemplate({ props }) {
+function ProductGridTemplate({ props }) {
   let className = "productTag";
   let tagText = "";
 
@@ -76,7 +50,9 @@ function ProductTemplate({ props }) {
       <div className="hoverScreen">
         <div className="hoverContent">
           <div className="hoverButton">
-            <button>See Details</button>
+            <button>
+              <Link to="/product">See Details</Link>
+            </button>
           </div>
           <div className="hoverActions">
             <a href="">
@@ -98,4 +74,4 @@ function ProductTemplate({ props }) {
   );
 }
 
-export { ProductTemplate };
+export { ProductGridTemplate };

@@ -1,0 +1,12 @@
+.ProductColorVariation {
+    height: 29px;
+    width: 29px;
+    border-radius: 50px;
+    padding: 1px;
+    border: none;    
+}
+
+.ProductColorVariation:hover {
+    padding: 0px;
+    border: 1px solid black;
+}
