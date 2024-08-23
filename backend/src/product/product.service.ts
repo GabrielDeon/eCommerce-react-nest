@@ -74,7 +74,10 @@ export class ProductService {
     try {
       product = await this.prisma.tb_product.findUnique({
         where: { id: id, deleted_at: null },
-        include: { category: true },
+        include: {
+          category: true,
+          product_variations: { include: { size: true, color: true } },
+        },
       });
     } catch (error) {
       console.error('Error fetching product:', error);

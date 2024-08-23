@@ -20,7 +20,7 @@ function App() {
           }
         />
         <Route
-          path="/product"
+          path="/product/:productId"
           element={
             <ProtectedRoute>
               <ProductPage />

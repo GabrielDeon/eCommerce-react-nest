@@ -10,12 +10,18 @@ const AuthenticateToken = () => {
     const token = Cookies.get("token");
 
     if (token) {
-      const dateNow = Date.now() / 1000;
+      const dateNow = Math.floor(Date.now() / 1000);
       const { exp } = jwtDecode(token);
 
-      if (dateNow < exp) {
-        navigate("/shop");
+      if (!(dateNow < exp)) {
+        alert(`token expired: Date Now: ${dateNow} /n Expiration: ${exp}` );
+        console.log("Date Now: " + dateNow);
+        console.log("Exp: " + exp);
+
+        Cookies.remove("token");
+        navigate("/");
       }
+      
     }
   }, [navigate]);
 };
