@@ -36,9 +36,7 @@
   
   .discountedTag {
     background-color: #E97171;
-  }
-  
-  
+  }  
   
   .productTextContent>h1 {
     font-family: Poppins;
@@ -129,6 +127,7 @@
     padding-left: 25px;
     padding-right: 25px;
     margin-bottom: 25px;
+    justify-content: center;
   }
   
   .hoverButton button {

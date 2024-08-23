@@ -21,7 +21,7 @@ function Header() {
     <div className="header">
       <header className="header">
         <div className="headerLeft">
-          <img className="headerLogo" src="header_Logo.png"></img>
+          <img className="headerLogo" src="/header_Logo.png"></img>
           <a href="">Furniro</a>
         </div>
         <div className="headerMid hover-effect">

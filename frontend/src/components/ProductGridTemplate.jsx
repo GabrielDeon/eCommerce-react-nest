@@ -5,13 +5,19 @@ import {
   faArrowRightArrowLeft,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
-import "../styles/Product.css";
+import "../styles/ProductGridTemplate.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //Product Template that uses the Product class object
 function ProductGridTemplate({ props }) {
+  const navigate = useNavigate();
   let className = "productTag";
   let tagText = "";
+
+  const handleProductClick = () => {
+    navigate(`/product/${props.id}`);
+  };
 
   if (props.isNew) {
     className += " newProductTag";
@@ -50,9 +56,7 @@ function ProductGridTemplate({ props }) {
       <div className="hoverScreen">
         <div className="hoverContent">
           <div className="hoverButton">
-            <button>
-              <Link to="/product">See Details</Link>
-            </button>
+            <button onClick={handleProductClick}>See Details</button>
           </div>
           <div className="hoverActions">
             <a href="">
