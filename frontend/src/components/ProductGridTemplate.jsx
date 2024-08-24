@@ -6,7 +6,6 @@ import {
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/ProductGridTemplate.css";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 //Product Template that uses the Product class object
@@ -15,8 +14,18 @@ function ProductGridTemplate({ props }) {
   let className = "productTag";
   let tagText = "";
 
+  const basePrice = parseFloat(props.base_price);
+  const finalPrice = parseFloat(props.final_price);
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(price);
+  };
+
   const handleProductClick = () => {
-    navigate(`/product/${props.id}`);
+    window.location.href = `/product/${props.id}`;
   };
 
   if (props.isNew) {
@@ -47,8 +56,10 @@ function ProductGridTemplate({ props }) {
           <h1>{props.product_name}</h1>
           <p>{props.short_description}</p>
           <div className="productPrices">
-            <h2>$ {props.final_price}</h2>
-            {props.base_price && <h3>$ {props.base_price}</h3>}
+            <h2>{formatPrice(finalPrice)}</h2>
+            {props.base_price && props.discount_percentage > 0 && (
+              <h3>{formatPrice(basePrice)}</h3>
+            )}
           </div>
         </div>
       </div>

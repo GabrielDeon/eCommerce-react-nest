@@ -27,8 +27,15 @@ export class ProductController {
     @Query('perPage') perPage: number = 16,
     @Query('filter') filter: string = 'none',
     @Query('sortOrder') sortOrder: string = 'asc',
+    @Query('categoryId') categoryId: string = 'none',
   ) {
-    return this.productService.findAllProducts(page, perPage, filter, sortOrder);
+    return this.productService.findAllProducts(
+      page,
+      perPage,
+      filter,
+      sortOrder,
+      categoryId,
+    );
   }
 
   @Get(':id')
@@ -42,7 +49,7 @@ export class ProductController {
     @Body(ValidationPipe) createProductDto: CreateProductDto,
     @UploadedFiles() productImages: Array<Express.Multer.File>,
   ) {
-    const allowedImageTypes = ['image/jpeg', 'image/png'];
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 
     for (const file of productImages) {
       if (!allowedImageTypes.includes(file.mimetype)) {

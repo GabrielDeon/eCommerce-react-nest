@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import "../styles/ProductSizeVariation.css";
 
-export default function ProductSizeVariation(props) {
+export default function ProductSizeVariation({ size, id, onClick }) {
   return (
-    <div className="productSizeVariation">
-      <p>{props.size ? props.size : "NF"}</p>
+    <div className="productSizeVariation" onClick={() => onClick(id)}>
+      <p>{size ? size : "NF"}</p>
     </div>
   );
 }

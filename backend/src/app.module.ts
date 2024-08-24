@@ -31,7 +31,7 @@ import { join } from 'path';
     BillModule,
     AuthModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'Products', 'Images'),
+      rootPath: join(__dirname, '..','..', 'Products', 'Images'),
       serveRoot: '/product-image',
     }),
   ],
