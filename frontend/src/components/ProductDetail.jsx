@@ -14,8 +14,16 @@ import ProductSizeVariation from "./ProductSizeVariation";
 
 export default function ProductDetail({ data }) {
   const [quantity, setQuantity] = React.useState(0);
+  const [mainImage, setMainImage] = React.useState(data.image_1);
+  const [selectedVariation, setSelectedVariation] = React.useState({
+    SKU: data.product_variations[0].SKU,
+    size: "",
+    color: "",
+  });
 
-  const extractUniqueIds = (productVariations) => {
+  const { SKU } = selectedVariation;
+
+  const extractUniqueVariations = (productVariations) => {
     const sizes = new Set();
     const colors = new Set();
 
@@ -37,10 +45,27 @@ export default function ProductDetail({ data }) {
         }
       });
     }
+
     return {
       uniqueSizes: Array.from(sizes),
       uniqueColors: Array.from(colors),
     };
+  };
+
+  const removeDuplicatesById = (objectsArray) => {
+    // Create a Map to store objects by their unique id
+    const uniqueObjects = new Map();
+
+    // Iterate over the array of objects
+    objectsArray.forEach((obj) => {
+      // If the id is not already in the map, add the object
+      if (!uniqueObjects.has(obj.id)) {
+        uniqueObjects.set(obj.id, obj);
+      }
+    });
+
+    // Return an array of unique objects
+    return Array.from(uniqueObjects.values());
   };
 
   const generateSizeVariations = (arraySizes) => {
@@ -52,7 +77,12 @@ export default function ProductDetail({ data }) {
           <p className="detailType">Size</p>
           <div className="pdcdSizes">
             {arraySizes.map((size) => (
-              <ProductSizeVariation key={size.id} size={size.size_name} />
+              <ProductSizeVariation
+                key={size.id}
+                size={size.size_name}
+                id={size.id}
+                onClick={handleSizeVariationClick}
+              />
             ))}
           </div>
         </>
@@ -72,6 +102,8 @@ export default function ProductDetail({ data }) {
               <ProductColorVariation
                 key={color.id}
                 color_code={color.color_code}
+                id={color.id}
+                onClick={handleColorVariationClick}
               />
             ))}
           </div>
@@ -80,21 +112,9 @@ export default function ProductDetail({ data }) {
     }
   };
 
-  const handleImageClick = (image) => {
-    setMainImage(image);
-  };
-
   const generateImageVariations = (arrayImages) => {
-    // const rightStyle = {
-    //   background: url(http://localhost:3000/product-image/${image}),
-    //   backgroundSize: "contain",
-    //   backgroundPosition: "center",
-    //   backgroundRepeat: "no-repeat",
-    //   backgroundColor: "rgba(249, 241, 231, 1)",
-    // };
-
     return arrayImages
-      .filter((image) => image !== "")
+      .filter((image) => image !== "" && image !== null)
       .map((image) => (
         <ProductImageVariation
           key={image}
@@ -104,12 +124,46 @@ export default function ProductDetail({ data }) {
       ));
   };
 
+  const handleImageClick = (image) => {
+    setMainImage(image);
+  };
+
+  const handleColorVariationClick = (id) => {
+    setSelectedVariation((prev) => ({
+      ...prev,
+      color: id,
+    }));
+  };
+
+  const handleSizeVariationClick = (id) => {
+    setSelectedVariation((prev) => ({
+      ...prev,
+      size: id,
+    }));
+  };
+
+  const handleAddToCart = () => {
+    alert(
+      `SKU: ${selectedVariation.SKU} \n Color: ${selectedVariation.color} \n Size: ${selectedVariation.size}`
+    );
+  };
+
+  const formatPrice = (price) => {
+    let floatPrice = parseFloat(price);
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(floatPrice);
+  };
+
   const images = [data.image_1, data.image_2, data.image_3, data.image_4];
-  const { uniqueSizes, uniqueColors } = extractUniqueIds(
+
+  let { uniqueSizes, uniqueColors } = extractUniqueVariations(
     data.product_variations
   );
 
-  const [mainImage, setMainImage] = React.useState(images[0]);
+  uniqueSizes = removeDuplicatesById(uniqueSizes);
+  uniqueColors = removeDuplicatesById(uniqueColors);
 
   return (
     <div className="productDetail">
@@ -123,11 +177,16 @@ export default function ProductDetail({ data }) {
           </div>
         </div>
         <div className="pdcDetails">
-          <h1>{data.product_name ? data.product_name : "Product Title"}</h1>
+          <div className="pdcdTitle">
+            <h1>{data.product_name ? data.product_name : "Product Title"}</h1>
+            {data.discount_percentage > 0? (<p>{data.discount_percentage + '% Off'}</p>): null}              
+          </div>
           <div className="pdcdPrice">
-            <h2>{data.final_price ? "$" + data.final_price : "$$$$"}</h2>{" "}
+            <h2>{data.final_price ? formatPrice(data.final_price) : "$$$$"}</h2>{" "}
             {data.discount_percentage != 0 && (
-              <h2>{data.base_price ? "$" + data.base_price : "$$$$"}</h2>
+              <h2 className="pdcdDiscounted">
+                {data.base_price ? formatPrice(data.base_price) : "$$$$"}
+              </h2>
             )}
           </div>
           <div className="pdcdStarReview">
@@ -170,7 +229,9 @@ export default function ProductDetail({ data }) {
                 +
               </button>
             </div>
-            <button className="btnAddToCart">Add to Cart</button>
+            <button onClick={handleAddToCart} className="btnAddToCart">
+              Add to Cart
+            </button>
           </div>
           <div className="pdcdExtras">
             <div className="pdcdExtrasLeft">
@@ -186,9 +247,9 @@ export default function ProductDetail({ data }) {
               <p>:</p>
             </div>
             <div className="pdcdExtrasRight">
-              <p>Data SKU</p>
-              <p>Data Category</p>
-              <p>Data Tags</p>
+              <p>{SKU}</p>
+              <p>{data.category.name && data.category.name}</p>
+              <p>{data.tags && data.tags}</p>
               <div className="pdcdExtrasMidias">
                 <FontAwesomeIcon icon={faSquareTwitter} />
                 <FontAwesomeIcon icon={faLinkedin} />

@@ -47,6 +47,10 @@
     color: #3A3A3A;
   }
   
+  .productText{
+    background-color: rgba(244, 245, 247, 1);
+  }
+  
   .productTextContent>p {
     font-family: Poppins;
     font-size: 16px;
@@ -105,7 +109,7 @@
   
   .hoverActions {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     gap: 20px;
   }
   

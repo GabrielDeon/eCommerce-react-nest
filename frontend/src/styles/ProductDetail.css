@@ -2,23 +2,15 @@
     margin-top: 42px;
     display: flex;
     gap: 80px;
-    justify-content: left;
-    margin-left: 15%;
+    justify-content: center;
+    
 
 }
 
 .pdcDetails {
     display: flex;
     flex-direction: column;
-}
-
-.pdcDetails>h1 {
-    font-family: Poppins;
-    font-size: 42px;
-    font-weight: 400;
-    line-height: 63px;
-    text-align: left;
-    color: rgba(0, 0, 0, 1);
+    width: 510px;
 }
 
 .pdcDetails h2 {
@@ -132,11 +124,10 @@
 }
 
 .pdcdExtras {
-    padding-right: 400px;
+    padding-right: 310px;
     margin-top: 50px;
     padding-top: 40px;
     border-top: 1px solid rgba(217, 217, 217, 1);
-    align-items: center;
     display: flex;
     gap: 16px;
 }
@@ -147,9 +138,11 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    justify-content: left;
 }
 
 .pdcdExtras p {
+    white-space: nowrap;
     font-family: Poppins;
     font-size: 16px;
     font-weight: 400;
@@ -182,14 +175,15 @@
     overflow: hidden;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center;    
 }
 
-.pdciMainImage img {
+.pdciMainImage img {    
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
     border-radius: 10px;
+    mix-blend-mode: multiply;
 }
 
 .addremoveBtn {
@@ -213,4 +207,35 @@
     display: flex;
     flex-direction: row;
     gap: 50px;
+}
+
+
+.pdcdPrice {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.pdcdDiscounted {
+    text-decoration: line-through;
+}
+
+.pdcdTitle {
+    display: flex;
+    gap: 10px;
+}
+
+.pdcdTitle>p {
+    color: green;
+    line-height: 63px;
+    font-family: Poppins;
+}
+
+.pdcdTitle>h1 {
+    font-family: Poppins;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 63px;
+    text-align: left;
+    color: rgba(0, 0, 0, 1);
 }

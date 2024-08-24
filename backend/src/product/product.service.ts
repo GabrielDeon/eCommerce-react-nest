@@ -22,23 +22,45 @@ export class ProductService {
     perPage: number,
     filter: string,
     sortOrder: string,
+    categoryId: string,
   ) {
     const offset = (page - 1) * perPage;
-
     let orderBy;
 
-    if (filter === 'none') {
-      orderBy = undefined;
-    } else if (filter === 'name') {
-      orderBy = { product_name: sortOrder };
-    } else if (filter === 'price') {
-      orderBy = { final_price: sortOrder };
+    interface WhereClause {
+      deleted_at: null;
+      id_category?: string;
+    }
+
+    const whereClause: WhereClause = { deleted_at: null };
+
+    if (categoryId != 'none') {
+      whereClause.id_category = categoryId;
+    }
+
+    switch (filter) {
+      case 'none':
+        orderBy = undefined;
+        break;
+      case 'name':
+        orderBy = { product_name: sortOrder };
+        break;
+      case 'price':
+        orderBy = { final_price: sortOrder };
+        break;
+      case 'category':
+        orderBy = { id_category: sortOrder };
+        break;
+      default:
+        orderBy = undefined;
+        break;
     }
 
     let products;
+
     try {
       products = await this.prisma.tb_product.findMany({
-        where: { deleted_at: null },
+        where: whereClause,
         include: { category: true },
         skip: offset,
         take: +perPage,
@@ -95,7 +117,11 @@ export class ProductService {
     productData: CreateProductDto,
     productImages: Array<Express.Multer.File>,
   ) {
-    const uploadPath = path.join(__dirname, '..', '..', 'Products', 'Images');
+    let uploadPath = path.join(__dirname, '..', '..', 'Products', 'Images');
+
+    if (uploadPath.includes('dist')) {
+      uploadPath = uploadPath.replace('dist', '');
+    }
 
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
@@ -216,4 +242,5 @@ export class ProductService {
       );
     }
   }
+  
 }

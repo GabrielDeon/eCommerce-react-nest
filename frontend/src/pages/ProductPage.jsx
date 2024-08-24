@@ -2,6 +2,7 @@ import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import PageTitleSmall from "../components/PageTitleSmall.jsx";
 import ProductDetail from "../components/ProductDetail.jsx";
+import RelatedProducts from "../components/RelatedProducts.jsx";
 import ScrollToTop from "../components/ScrollToTop.jsx";
 import axios from "axios";
 import AuthenticateToken from "../utils/TokenValidation";
@@ -32,6 +33,7 @@ export default function ShopPage() {
       <Header />
       <PageTitleSmall />
       {productData ? <ProductDetail data={productData} /> : <p>Loading...</p>}
+      <RelatedProducts/>
       <Footer />
     </>
   );

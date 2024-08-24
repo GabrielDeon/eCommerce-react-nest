@@ -1,5 +1,6 @@
 /*-----------------------------Footer Section---------------------------*/
 .footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.17);
     bottom: 0;
     width: 100%;
     display: flex;

@@ -64,7 +64,7 @@ model tb_product {
   category            tb_category            @relation(fields: [id_category], references: [id])
   product_name        String                 @unique @db.VarChar(100)
   short_description   String                 @db.VarChar(50)
-  description         String                 @db.VarChar(255)
+  description         String                 @db.VarChar(500)
   base_price          Decimal                @db.Decimal(12, 2)
   discount_percentage Decimal?               @default(0) @db.Decimal(5, 2)
   final_price         Decimal                @db.Decimal(12, 2)

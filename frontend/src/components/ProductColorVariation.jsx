@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import "../styles/ProductColorVariation.css";
 
-export default function ProductColorVariation(props) {
+export default function ProductColorVariation({ color_code, id, onClick }) {
   return (
     <div
+      onClick={() => onClick(id)}
       className="ProductColorVariation"
       style={{
-        backgroundColor: props.color_code,
+        backgroundColor: color_code,
       }}
     ></div>
   );
