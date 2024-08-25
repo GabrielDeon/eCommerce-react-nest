@@ -47,8 +47,6 @@ export default function RelatedProducts({ productId, categoryId }) {
     fetchItems();
   }, [categoryId]);
 
-  console.log(categoryItems);
-
   return (
     <div className="RelatedProducts">
       <div className="RelatedProductsContent">

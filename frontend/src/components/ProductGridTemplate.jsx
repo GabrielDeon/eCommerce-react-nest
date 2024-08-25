@@ -6,11 +6,9 @@ import {
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/ProductGridTemplate.css";
-import { useNavigate } from "react-router-dom";
 
 //Product Template that uses the Product class object
-function ProductGridTemplate({ props }) {
-  const navigate = useNavigate();
+function ProductGridTemplate({ props }) {  
   let className = "productTag";
   let tagText = "";
 

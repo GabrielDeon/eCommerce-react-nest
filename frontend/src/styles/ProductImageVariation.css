@@ -1,17 +1,17 @@
 .productImageVariation {
     width: 75px;
-    height: 79px;    
+    height: 79px;
     border-radius: 10px;
     cursor: pointer;
     padding: 1px;
     overflow: hidden;
     display: flex;
     justify-content: center;
-    align-items: center;    
-    background-color: rgba(249, 241, 231, 1);        
+    align-items: center;
+    background-color: rgba(249, 241, 231, 1);
 }
 
-.productImageVariation > img {
+.productImageVariation>img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
@@ -19,8 +19,9 @@
     mix-blend-mode: multiply;
 }
 
-.productImageVariation:hover {    
+.productImageVariation:hover,
+.productImageVariation.selected {
     padding: 0px;
-    background-color: rgb(240, 229, 215);    
+    background-color: rgb(240, 229, 215);
     border: 1px solid black;
 }

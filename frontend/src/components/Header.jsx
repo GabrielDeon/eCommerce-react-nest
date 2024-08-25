@@ -7,20 +7,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Minicart from "./MiniCart";
 import "../styles/Header.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useState } from "react";
 
 function Header() {
   const [showMinicart, setShowMinicart] = useState(false);
-  
+
   const toggleMinicart = () => {
     setShowMinicart(!showMinicart);
   };
 
   const handleLogOut = () => {
-    Cookies.remove("token");    
-    window.location.href = '/';
+    Cookies.remove("token");
+    window.location.href = "/";
   };
 
   return (
@@ -49,7 +49,7 @@ function Header() {
           <button href="" className="headerIconBars">
             <FontAwesomeIcon icon={faBars} />
           </button>
-          {showMinicart && <Minicart onClick={toggleMinicart}/>}
+          {showMinicart && <Minicart onClick={toggleMinicart} />}
         </div>
       </header>
     </div>

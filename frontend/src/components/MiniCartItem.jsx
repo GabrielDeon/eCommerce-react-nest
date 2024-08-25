@@ -1,22 +1,41 @@
+/* eslint-disable react/prop-types */
 import "../styles/MiniCartItem.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { removeProduct } from "../store/cart/cartSlice";
 
-// eslint-disable-next-line react/prop-types
-const MinicartItem = () => {
+const MinicartItem = ({ id, image, name, selectedQuantity, final_price }) => {
+  const dispatch = useDispatch();
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(price);
+  };
+
+  const handleProductRemove = () => {
+    dispatch(removeProduct(id));
+  };
+
   return (
     <div className="MiniCartItem">
-      <img className="MiniCartItemImage" src="http://localhost:3000/product-image/car.png"></img>
+      <img
+        className="MiniCartItemImage"
+        src={`http://localhost:3000/product-image/${image}`}
+      ></img>
+
       <div className="MiniCartItemData">
-        <h3>Item Name</h3>
+        <h3>{name}</h3>
         <div className="mcidQuantityPrice">
-          <p>12</p>
+          <p>{selectedQuantity ? selectedQuantity : "NF"}</p>
           <p>X</p>
-          <p>$470.000,00</p>
+          <p>{final_price ? formatPrice(final_price) : "NF"}</p>
         </div>
       </div>
       <div className="mcidButtonRight">
-        <button>
+        <button onClick={handleProductRemove}>
           <FontAwesomeIcon icon={faCircleXmark} />
         </button>
       </div>

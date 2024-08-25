@@ -50,7 +50,6 @@ function ProductGrid() {
         });
 
         let { totalProducts, totalPages, ...rest } = response.data;
-        console.log(rest);        
         setTotalProductNumber(totalProducts);
         setProductArray(Object.values(rest));
         setTotalPages(totalPages);

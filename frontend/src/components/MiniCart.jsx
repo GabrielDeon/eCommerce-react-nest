@@ -2,9 +2,24 @@ import "../styles/MiniCart.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRectangleXmark } from "@fortawesome/free-solid-svg-icons";
 import MinicartItem from "./MiniCartItem";
+import { useSelector } from "react-redux";
 
 // eslint-disable-next-line react/prop-types
 const Minicart = ({ onClick }) => {
+  const products = useSelector((state) => state.cart.products);
+  const totalValue = useSelector((state) => state.cart.total_value);
+  console.log("Minicart");
+  console.log(products);
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(price);
+  };
+  
+  
+
   return (
     <div className="overlay">
       <div className="minicart">
@@ -21,13 +36,22 @@ const Minicart = ({ onClick }) => {
 
           <hr className="minicartSeparator" />
           <div className="minicart-items">
-            <MinicartItem />
-            <MinicartItem />
-            <MinicartItem />
+            {products.map((item) => {
+              return (
+                <MinicartItem
+                  key={item.id}
+                  id={item.id}
+                  image={item.image}
+                  name={item.name}
+                  selectedQuantity={item.selectedQuantity}
+                  final_price={item.final_price}
+                />
+              );
+            })}
           </div>
           <div className="minicartTotals">
             <p>Subtotal</p>
-            <p>$500</p>
+            <p>{formatPrice(totalValue)}</p>
           </div>
         </div>
         <div className="minicart-buttons">

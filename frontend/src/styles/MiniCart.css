@@ -53,14 +53,15 @@
 
 .minicart-buttons {
     padding: 27px;
-    border-top: 1px solid rgba(217, 217, 217, 1);    
+    border-top: 1px solid rgba(217, 217, 217, 1);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     gap: 5px;
 }
 
-.minicart-buttons>button {    
+.minicart-buttons>button {
+    cursor: pointer;
     border: 1px solid black;
     border-radius: 50px;
     background-color: white;
@@ -92,11 +93,11 @@
     gap: 10px;
     max-height: 300px;
     overflow-y: auto;
-    scrollbar-width: thin;       
-    scrollbar-color: #888 #f1f1f1;  
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
 }
 
-.minicartSeparator{
+.minicartSeparator {
     margin-top: 25px;
     margin-bottom: 25px;
 }
@@ -128,5 +129,4 @@
     line-height: 24px;
     text-align: left;
     color: rgba(184, 142, 47, 1);
-}   
-  
+}
