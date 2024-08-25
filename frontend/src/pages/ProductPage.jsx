@@ -14,12 +14,14 @@ export default function ShopPage() {
   ScrollToTop();
   const { productId } = useParams();
   const [productData, setProductData] = useState(null);
+  const [productName, setProductName] = useState("");
 
   useEffect(() => {
     const fetchProductData = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/product/${productId}`);
         setProductData(response.data);
+        setProductName(response.data.product_name)
       } catch (error) {
         console.log(error);
       }
@@ -31,7 +33,7 @@ export default function ShopPage() {
   return (
     <>
       <Header />
-      <PageTitleSmall />
+      <PageTitleSmall productName={productName}/>
       {productData ? <ProductDetail data={productData} /> : <p>Loading...</p>}
       <RelatedProducts/>
       <Footer />

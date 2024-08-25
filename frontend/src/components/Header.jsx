@@ -5,16 +5,22 @@ import {
   faBars,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
+import Minicart from "./MiniCart";
 import "../styles/Header.css";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useState } from "react";
 
 function Header() {
-  const navigate = useNavigate();
+  const [showMinicart, setShowMinicart] = useState(false);
+  
+  const toggleMinicart = () => {
+    setShowMinicart(!showMinicart);
+  };
 
   const handleLogOut = () => {
-    Cookies.remove("token");
-    navigate("/");
+    Cookies.remove("token");    
+    window.location.href = '/';
   };
 
   return (
@@ -31,18 +37,19 @@ function Header() {
           <a href="">Contact</a>
         </div>
         <div className="headerRight">
-          <a href="" className="headerIcon">
+          <button href="" className="headerIcon">
             <FontAwesomeIcon icon={faUser} />
-          </a>
-          <a href="" className="headerIcon">
+          </button>
+          <button href="" className="headerIcon" onClick={toggleMinicart}>
             <FontAwesomeIcon icon={faCartShopping} />
-          </a>
-          <a href="" onClick={handleLogOut} className="headerIcon">
+          </button>
+          <button href="" onClick={handleLogOut} className="headerIcon">
             <FontAwesomeIcon icon={faRightFromBracket} />
-          </a>
-          <a href="" className="headerIconBars">
+          </button>
+          <button href="" className="headerIconBars">
             <FontAwesomeIcon icon={faBars} />
-          </a>
+          </button>
+          {showMinicart && <Minicart onClick={toggleMinicart}/>}
         </div>
       </header>
     </div>

@@ -1,0 +1,132 @@
+.minicart {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1000;
+}
+
+.overlay {
+    z-index: 900;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.minicartTop {
+    display: flex;
+    gap: 150px;
+}
+
+.minicartTop>button {
+    color: rgba(159, 159, 159, 1);
+    border: none;
+    background-color: white;
+}
+
+.minicartTitleClosingBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.minicartIcon {
+    cursor: pointer;
+    width: 17px;
+    height: 17px;
+}
+
+.minicartIcon:hover {
+    color: #B88E2F;
+}
+
+.minicart-buttons {
+    padding: 27px;
+    border-top: 1px solid rgba(217, 217, 217, 1);    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.minicart-buttons>button {    
+    border: 1px solid black;
+    border-radius: 50px;
+    background-color: white;
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: center;
+    padding: 6px 30px 6px 30px;
+}
+
+.minicart-buttons>button:hover {
+    padding: 7px 31px 7px 31px;
+    border: none;
+    background-color: #B88E2F;
+    color: white;
+}
+
+.minicart-title {
+    font-family: Poppins;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 36px;
+    text-align: left;
+}
+
+.minicart-items {
+    display: grid;
+    gap: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;       
+    scrollbar-color: #888 #f1f1f1;  
+}
+
+.minicartSeparator{
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.minicartContent {
+    padding: 27px 40px 23px 27px;
+}
+
+.minicartTotals {
+    margin: 20px 20px 0 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.minicartTotals>p {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+}
+
+.minicartTotals>p:last-of-type {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: left;
+    color: rgba(184, 142, 47, 1);
+}   
+  

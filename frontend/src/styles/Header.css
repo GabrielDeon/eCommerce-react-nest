@@ -55,7 +55,12 @@ header {
   justify-content: right;
 }
 
-.headerRight>a {
+.headerRight>button {
+
+  height: 28px;
+  width: 28px;
+  background-color: white;
+  border: none;
   text-decoration: none;
   color: black;
 }
