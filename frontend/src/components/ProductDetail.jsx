@@ -11,17 +11,22 @@ import React from "react";
 import ProductImageVariation from "./ProductImageVariation";
 import ProductColorVariation from "./ProductColorVariation";
 import ProductSizeVariation from "./ProductSizeVariation";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../store/cart/cartSlice";
 
 export default function ProductDetail({ data }) {
   const [quantity, setQuantity] = React.useState(0);
   const [mainImage, setMainImage] = React.useState(data.image_1);
   const [selectedVariation, setSelectedVariation] = React.useState({
-    SKU: data.product_variations[0].SKU,
     size: "",
     color: "",
   });
-
-  const { SKU } = selectedVariation;
+  const [SKU, setSKU] = React.useState(
+    data.product_variations[0].SKU ? data.product_variations[0].SKU : ""
+  );
+  const images = [data.image_1, data.image_2, data.image_3, data.image_4];
+  const allVariations = data.product_variations ? data.product_variations : "";
+  const dispatch = useDispatch();
 
   const extractUniqueVariations = (productVariations) => {
     const sizes = new Set();
@@ -82,6 +87,7 @@ export default function ProductDetail({ data }) {
                 size={size.size_name}
                 id={size.id}
                 onClick={handleSizeVariationClick}
+                isSelected={selectedVariation.size === size.id}
               />
             ))}
           </div>
@@ -104,6 +110,7 @@ export default function ProductDetail({ data }) {
                 color_code={color.color_code}
                 id={color.id}
                 onClick={handleColorVariationClick}
+                isSelected={selectedVariation.color === color.id}
               />
             ))}
           </div>
@@ -120,6 +127,7 @@ export default function ProductDetail({ data }) {
           key={image}
           image={image}
           onClick={handleImageClick}
+          isSelected={image === mainImage}
         />
       ));
   };
@@ -142,12 +150,6 @@ export default function ProductDetail({ data }) {
     }));
   };
 
-  const handleAddToCart = () => {
-    alert(
-      `SKU: ${selectedVariation.SKU} \n Color: ${selectedVariation.color} \n Size: ${selectedVariation.size}`
-    );
-  };
-
   const formatPrice = (price) => {
     let floatPrice = parseFloat(price);
     return new Intl.NumberFormat("en-US", {
@@ -156,7 +158,32 @@ export default function ProductDetail({ data }) {
     }).format(floatPrice);
   };
 
-  const images = [data.image_1, data.image_2, data.image_3, data.image_4];
+  const handleAddToCart = () => {    
+    if (quantity <= 0) {
+      alert("Selected quantity must be higher than 0.");
+    } else {
+      let chosenProduct = allVariations.find(
+        (element) =>
+          element.id_size === selectedVariation.size &&
+          element.id_color === selectedVariation.color
+      );
+
+      if (chosenProduct) {
+        if (!(chosenProduct.stock > quantity)) {
+          setQuantity(0);
+          alert("Quantity selected is not available.");
+        } else {
+          chosenProduct.image = images[0];
+          chosenProduct.selectedQuantity = quantity;
+          chosenProduct.name = data.product_name ? data.product_name : "NF";          
+          dispatch(addProduct(chosenProduct));
+          alert("Product added to the cart!");
+        }
+      } else {
+        alert("This variation of Color/Size is unavailable");
+      }
+    }
+  };
 
   let { uniqueSizes, uniqueColors } = extractUniqueVariations(
     data.product_variations
@@ -164,6 +191,21 @@ export default function ProductDetail({ data }) {
 
   uniqueSizes = removeDuplicatesById(uniqueSizes);
   uniqueColors = removeDuplicatesById(uniqueColors);
+
+  React.useEffect(() => {
+    const handleSkuChange = async () => {
+      let newSKU = allVariations.find(
+        (element) =>
+          element.id_size === selectedVariation.size &&
+          element.id_color === selectedVariation.color
+      );
+      if (newSKU) {
+        setSKU(newSKU.SKU);
+      }
+    };
+
+    handleSkuChange();
+  }, [allVariations, selectedVariation]);
 
   return (
     <div className="productDetail">
@@ -179,7 +221,9 @@ export default function ProductDetail({ data }) {
         <div className="pdcDetails">
           <div className="pdcdTitle">
             <h1>{data.product_name ? data.product_name : "Product Title"}</h1>
-            {data.discount_percentage > 0? (<p>{data.discount_percentage + '% Off'}</p>): null}              
+            {data.discount_percentage > 0 ? (
+              <p>{data.discount_percentage + "% Off"}</p>
+            ) : null}
           </div>
           <div className="pdcdPrice">
             <h2>{data.final_price ? formatPrice(data.final_price) : "$$$$"}</h2>{" "}
@@ -247,7 +291,7 @@ export default function ProductDetail({ data }) {
               <p>:</p>
             </div>
             <div className="pdcdExtrasRight">
-              <p>{SKU}</p>
+              <p>{SKU ? SKU : data.product_variations[0].SKU}</p>
               <p>{data.category.name && data.category.name}</p>
               <p>{data.tags && data.tags}</p>
               <div className="pdcdExtrasMidias">

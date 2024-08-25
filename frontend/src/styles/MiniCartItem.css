@@ -5,7 +5,7 @@
     gap: 25px;
 }
 
-.MiniCartItemImage {
+.MiniCartItemImage  {
     background-color: rgba(240, 240, 240, 1);
     width: 105px;
     height: 105px;
@@ -13,8 +13,7 @@
     border-radius: 10px;
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain;
-    border-radius: 10px;
+    object-fit: fill;    
     mix-blend-mode: multiply;
 }
 

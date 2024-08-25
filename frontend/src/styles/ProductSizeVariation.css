@@ -6,7 +6,8 @@
     background-color: rgba(249, 241, 231, 1);
 }
 
-.productSizeVariation:hover {
+.productSizeVariation:hover,
+.productSizeVariation.selected { 
     color: white;
     background-color: rgba(184, 142, 47, 1);
 }
