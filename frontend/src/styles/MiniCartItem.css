@@ -1,0 +1,86 @@
+.MiniCartItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 25px;
+}
+
+.MiniCartItemImage {
+    background-color: rgba(240, 240, 240, 1);
+    width: 105px;
+    height: 105px;
+    border: none;
+    border-radius: 10px;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    mix-blend-mode: multiply;
+}
+
+.MiniCartItemData {
+    justify-content: left;
+    flex: 1;
+}
+
+.mcidQuantityPrice {
+    display: flex;
+    flex-direction: row;
+    margin-top: 8px;
+    gap: 15px;
+    align-items: center;
+}
+
+.mcidQuantityPrice>p {
+    font-family: Poppins;
+    text-align: left;
+}
+
+.mcidQuantityPrice>p:last-of-type {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    color: rgba(184, 142, 47, 1);
+}
+
+.mcidQuantityPrice>p:first-of-type {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+}
+
+.mcidQuantityPrice p:nth-child(2) {    
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 18px;    
+}
+
+
+.MiniCartItemData>h3 {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+}
+
+.mcidButtonRight {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+}
+
+.mcidButtonRight>button {
+    cursor: pointer;
+    margin-top: 7px;
+    margin-right: 5px;
+    align-self: flex-start;
+    color: rgba(159, 159, 159, 1);
+    font-size: 16px;
+    border: none;
+    background-color: white;
+}
+
+.mcidButtonRight>button:hover {
+    color: #B88E2F;
+}
