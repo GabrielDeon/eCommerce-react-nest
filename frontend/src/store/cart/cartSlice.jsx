@@ -10,13 +10,12 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {
     addProduct: (state, action) => {
-      const productVariation = action.payload; 
+      const productVariation = action.payload;
       state.products.push(productVariation);
-      state.total_value +=
-        productVariation.final_price * productVariation.selectedQuantity;
+      counterSlice.caseReducers.recalculateTotalValue(state);
     },
     removeProduct: (state, action) => {
-      const productVariationID = action.payload; 
+      const productVariationID = action.payload;
       const product = state.products.find(
         (element) => element.id === productVariationID
       );
@@ -24,16 +23,35 @@ export const counterSlice = createSlice({
         state.products = state.products.filter(
           (item) => item.id !== productVariationID
         );
-        state.total_value -=
-          product.selectedQuantity * product.final_price;
       }
-      if(state.products.length === 0) {
+      counterSlice.caseReducers.recalculateTotalValue(state);
+    },
+    updateProduct: (state, action) => {
+      const { id, attProduct } = action.payload;
+
+      const index = state.products.findIndex(
+        (element) => element.id === id
+      );
+
+      if (index !== -1) {
+        state.products[index] = attProduct;
+
+        counterSlice.caseReducers.recalculateTotalValue(state);
+      }
+    },
+    recalculateTotalValue: (state) => {
+      if (state.products.length === 0) {
         state.total_value = 0;
+      } else {
+        state.total_value = state.products.reduce((total, product) => {
+          return total + product.final_price * product.selectedQuantity;
+        }, 0);
       }
     },
   },
 });
 
-export const { addProduct, removeProduct } = counterSlice.actions;
+export const { addProduct, removeProduct, updateProduct } =
+  counterSlice.actions;
 
 export default counterSlice.reducer;

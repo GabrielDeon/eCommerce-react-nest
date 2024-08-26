@@ -39,7 +39,7 @@
   
   .pageTitleBot {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
   }
   
   .pageTitleBot>p {

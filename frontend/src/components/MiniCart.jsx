@@ -7,9 +7,7 @@ import { useSelector } from "react-redux";
 // eslint-disable-next-line react/prop-types
 const Minicart = ({ onClick }) => {
   const products = useSelector((state) => state.cart.products);
-  const totalValue = useSelector((state) => state.cart.total_value);
-  console.log("Minicart");
-  console.log(products);
+  const totalValue = useSelector((state) => state.cart.total_value);  
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat("en-US", {
@@ -17,8 +15,14 @@ const Minicart = ({ onClick }) => {
       currency: "USD",
     }).format(price);
   };
-  
-  
+
+  const handleCartClick = () => {
+    window.location.href = "/cart";
+  }
+
+  const handleCheckoutClick = () => {
+    window.location.href = "/checkout";
+  }
 
   return (
     <div className="overlay">
@@ -55,8 +59,8 @@ const Minicart = ({ onClick }) => {
           </div>
         </div>
         <div className="minicart-buttons">
-          <button>Cart</button>
-          <button>Checkout</button>
+          <button onClick={handleCartClick}>Cart</button>
+          <button onClick={handleCheckoutClick}>Checkout</button>
           <button>Comparison</button>
         </div>
       </div>

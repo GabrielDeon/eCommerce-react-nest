@@ -20,7 +20,7 @@ function Header() {
 
   const handleLogOut = () => {
     Cookies.remove("token");
-    window.location.href = "/";
+    window.location.href = "/signin";
   };
 
   return (
@@ -32,7 +32,7 @@ function Header() {
         </div>
         <div className="headerMid hover-effect">
           <a href="">Home</a>
-          <Link to="/shop">Shop</Link>
+          <Link to="/">Shop</Link>
           <a href="">About</a>
           <a href="">Contact</a>
         </div>
