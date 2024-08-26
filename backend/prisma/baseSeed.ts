@@ -7,11 +7,6 @@ async function main() {
   const categories = ['Books', 'Clothing', 'Chairs', 'Tables'];
   const sizes = [
     { size_name: 'No_Size', id: '00000000-0000-0000-0000-000000000001' },
-    { size_name: 'S' },
-    { size_name: 'M' },
-    { size_name: 'L' },
-    { size_name: 'XL' },
-    { size_name: 'XS' },
   ];
 
   const colors = [
@@ -19,18 +14,6 @@ async function main() {
       id: '00000000-0000-0000-0000-000000000002',
       color_name: 'No_Color',
       color_code: 'NO_COLOR',
-    },
-    {
-      color_name: 'Black',
-      color_code: '#000000',
-    },
-    {
-      color_name: 'Alpine',
-      color_code: '#B88E2F',
-    },
-    {
-      color_name: 'Cornflower Blue',
-      color_code: '#816DFA',
     },
   ];
 

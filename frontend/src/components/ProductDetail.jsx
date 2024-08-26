@@ -175,7 +175,8 @@ export default function ProductDetail({ data }) {
         } else {
           chosenProduct.image = images[0];
           chosenProduct.selectedQuantity = quantity;
-          chosenProduct.name = data.product_name ? data.product_name : "NF";          
+          chosenProduct.name = data.product_name ? data.product_name : "NF";  
+          chosenProduct.calculated_price = (chosenProduct.final_price * chosenProduct.selectedQuantity);        
           dispatch(addProduct(chosenProduct));
           alert("Product added to the cart!");
         }

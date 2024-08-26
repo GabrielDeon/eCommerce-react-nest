@@ -4,26 +4,23 @@ import SignupPage from "./pages/SignupPage";
 import ProductPage from "./pages/ProductPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<SigninPage />} />
+        <Route path="/signin" element={<SigninPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/" element={<ShopPage />} />
+        <Route path="/product/:productId" element={<ProductPage />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route
-          path="/shop"
+          path="/checkout"
           element={
             <ProtectedRoute>
-              <ShopPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/product/:productId"
-          element={
-            <ProtectedRoute>
-              <ProductPage />
+              <CheckoutPage />
             </ProtectedRoute>
           }
         />
