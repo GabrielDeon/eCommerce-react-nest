@@ -7,16 +7,13 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
-import AuthenticateToken from "../utils/TokenValidation";
 
 export default function SigninPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
-
-  AuthenticateToken();
+  const navigate = useNavigate();  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -38,7 +35,7 @@ export default function SigninPage() {
 
       Cookies.set("token", access_token, { expires: expiration });
 
-      navigate("/shop");
+      navigate("/");
     } catch (err) {
       console.error(`Error signing in: ` + err);
       setError("Invalid credentials or server error");

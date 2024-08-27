@@ -1,4 +1,11 @@
-import { IsDate, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Decimal } from '@prisma/client/runtime/library';
+import {
+  IsDate,
+  IsDecimal,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateBillDto {
   @IsString()
@@ -48,4 +55,12 @@ export class CreateBillDto {
   @IsDate()
   @IsOptional()
   deleted_at: Date;
+
+  @IsString()
+  @IsOptional()
+  additional_info: string;
+
+  @IsDecimal()
+  @IsNotEmpty()
+  final_price: Decimal;
 }

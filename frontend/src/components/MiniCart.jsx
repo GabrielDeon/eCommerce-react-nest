@@ -3,18 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRectangleXmark } from "@fortawesome/free-solid-svg-icons";
 import MinicartItem from "./MiniCartItem";
 import { useSelector } from "react-redux";
+import formatPrice from "../utils/FormatPrice";
 
 // eslint-disable-next-line react/prop-types
 const Minicart = ({ onClick }) => {
   const products = useSelector((state) => state.cart.products);
   const totalValue = useSelector((state) => state.cart.total_value);  
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price);
-  };
 
   const handleCartClick = () => {
     window.location.href = "/cart";

@@ -8,19 +8,39 @@ import {
 import Minicart from "./MiniCart";
 import "../styles/Header.css";
 import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
 import { useState } from "react";
+import AuthenticateToken from "../utils/TokenValidation";
+import Cookies from "js-cookie";
+import { toast, Bounce } from "react-toastify";
 
 function Header() {
   const [showMinicart, setShowMinicart] = useState(false);
+  const [logged, setLogged] = useState(AuthenticateToken());
 
   const toggleMinicart = () => {
     setShowMinicart(!showMinicart);
   };
 
+  const handleUserClick = () => {
+    if(!logged) {
+      window.location.href = "/signin";
+    }
+  }
+
   const handleLogOut = () => {
-    Cookies.remove("token");
-    window.location.href = "/signin";
+     Cookies.remove("token");
+     setLogged(AuthenticateToken());
+     toast.info(`User logged out.`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce,
+    });
   };
 
   return (
@@ -37,15 +57,18 @@ function Header() {
           <a href="">Contact</a>
         </div>
         <div className="headerRight">
-          <button href="" className="headerIcon">
+          <button onClick={handleUserClick} href="" className="headerIcon">
             <FontAwesomeIcon icon={faUser} />
           </button>
           <button href="" className="headerIcon" onClick={toggleMinicart}>
             <FontAwesomeIcon icon={faCartShopping} />
           </button>
-          <button href="" onClick={handleLogOut} className="headerIcon">
-            <FontAwesomeIcon icon={faRightFromBracket} />
-          </button>
+          {logged && (
+            <button href="" onClick={handleLogOut} className="headerIcon">
+              <FontAwesomeIcon icon={faRightFromBracket} />
+            </button>
+          )}
+
           <button href="" className="headerIconBars">
             <FontAwesomeIcon icon={faBars} />
           </button>

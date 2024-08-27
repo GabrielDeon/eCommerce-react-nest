@@ -13,7 +13,7 @@ export default function RelatedProducts({ productId, categoryId }) {
     if (showMore === "hidden") {
       setShowMore("");
     } else if (showMore === "") {
-      window.location.href = "/shop";
+      window.location.href = "/";
     }
   };
 

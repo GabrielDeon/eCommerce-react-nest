@@ -1,16 +1,48 @@
 import "../styles/Cart.css";
 import CartItem from "./CartItem";
 import { useSelector } from "react-redux";
+import formatPrice from "../utils/FormatPrice";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import { toast, Bounce } from 'react-toastify';
 
 const Cart = () => {
   const totalValue = useSelector((state) => state.cart.total_value);
   const products = useSelector((state) => state.cart.products);
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price);
+  const RedirectSignin = () => {
+    toast.info('You need to be logged to proceed.', {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce      
+    });    
+  }
+
+  const handleCheckoutClick = () => {
+    const token = Cookies.get("token");
+
+    if (!token) {
+      RedirectSignin();
+    }
+
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000; // Current time in seconds
+
+      if (decodedToken.exp && decodedToken.exp > currentTime) {
+        window.location.href = "/checkout";
+      } else {
+        console.log("Token has expired. User needs to log in again.");
+      }
+    } catch (error) {
+      console.log("Error decoding token:", error);
+    }
   };
 
   return (
@@ -32,13 +64,13 @@ const Cart = () => {
             </div>
           </div>
           <div className="cccGridItems">
-          {products.map((item) => {
+            {products.map((item) => {
               return (
                 <CartItem
                   key={item.id}
                   id={item.id}
                   image={item.image}
-                  product_name={item.name}                  
+                  product_name={item.name}
                 />
               );
             })}
@@ -54,7 +86,7 @@ const Cart = () => {
             <p>Total</p>
             <p className="cccsvFinalValue">{formatPrice(totalValue)}</p>
           </div>
-          <button>Check Out</button>
+          <button onClick={handleCheckoutClick}>Check Out</button>
         </div>
       </div>
     </div>

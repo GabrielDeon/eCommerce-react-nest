@@ -5,20 +5,14 @@ import { removeProduct, updateProduct } from "../store/cart/cartSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import formatPrice from "../utils/FormatPrice";
 
 const CartItem = ({ id, product_name, image }) => {
   const products = useSelector((state) => state.cart.products);
   const productData = products.find((element) => element.id === id);
   const [quantity, setQuantity] = useState(productData.selectedQuantity);
 
-  const dispatch = useDispatch();
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price);
-  };
+  const dispatch = useDispatch();  
 
   const handleProductRemove = () => {
     dispatch(removeProduct(id));
