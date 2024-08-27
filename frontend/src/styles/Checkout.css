@@ -83,6 +83,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 20px;
 }
 
 .cctSubtotal.ccrMirror>p:first-of-type {
@@ -102,9 +103,14 @@
 }
 
 .checkoutContentItems{
-    display: flex;
-    flex-direction: column;
+    margin-top: 14px;
+    padding-right: 5px;
+    display: grid;
     gap: 22px;
+    max-height: 500px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
 }
 
 .ProductQuantityCheckout{

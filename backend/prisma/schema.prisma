@@ -152,21 +152,23 @@ model tb_cart_item {
 }
 
 model tb_bill {
-  id             String    @id @default(uuid())
-  id_cart        String
-  cart           tb_cart   @relation(fields: [id_cart], references: [id])
-  first_name     String    @db.VarChar(50)
-  last_name      String    @db.VarChar(50)
-  company_name   String?   @db.VarChar(100)
-  zip_code       String    @db.VarChar(20)
-  country_region String    @db.VarChar(100)
-  street_address String    @db.VarChar(255)
-  city_town      String    @db.VarChar(100)
-  province       String    @db.VarChar(100)
-  address_line_2 String?   @db.VarChar(255)
-  email_address  String    @db.VarChar(255)
-  created_at     DateTime  @default(now())
-  deleted_at     DateTime?
+  id              String    @id @default(uuid())
+  id_cart         String
+  cart            tb_cart   @relation(fields: [id_cart], references: [id])
+  first_name      String    @db.VarChar(50)
+  last_name       String    @db.VarChar(50)
+  company_name    String?   @db.VarChar(100)
+  zip_code        String    @db.VarChar(20)
+  country_region  String    @db.VarChar(100)
+  street_address  String    @db.VarChar(255)
+  city_town       String    @db.VarChar(100)
+  province        String    @db.VarChar(100)
+  address_line_2  String?   @db.VarChar(255)
+  email_address   String    @db.VarChar(255)
+  created_at      DateTime  @default(now())
+  deleted_at      DateTime?
+  additional_info String    @db.VarChar(250)
+  final_price     Decimal   @db.Decimal(12, 2)
 
   @@index([id_cart])
 }

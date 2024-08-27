@@ -4,7 +4,6 @@ import { faApple, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
-import AuthenticateToken from "../utils/TokenValidation";
 
 export default function SignUpPage() {
   const [username, setUsername] = useState("");
@@ -12,9 +11,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  AuthenticateToken();
+  const navigate = useNavigate();  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,7 +25,7 @@ export default function SignUpPage() {
         password,
       });
 
-      navigate("/");
+      navigate("/signin");
     } catch (err) {
       console.error(`Error signing up:`, err);
 
@@ -118,7 +115,7 @@ export default function SignUpPage() {
           </div>
           <div className="SingInRedirection">
             <p>
-              Have an account? <Link to="/">Sign In</Link>
+              Have an account? <Link to="/signin">Sign In</Link>
             </p>
           </div>
         </div>

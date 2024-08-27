@@ -13,6 +13,7 @@ import ProductColorVariation from "./ProductColorVariation";
 import ProductSizeVariation from "./ProductSizeVariation";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../store/cart/cartSlice";
+import formatPrice from "../utils/FormatPrice";
 
 export default function ProductDetail({ data }) {
   const [quantity, setQuantity] = React.useState(0);
@@ -20,10 +21,16 @@ export default function ProductDetail({ data }) {
   const [selectedVariation, setSelectedVariation] = React.useState({
     size: "",
     color: "",
+    sec_size: "",
+    sec_color: "",
   });
+
   const [SKU, setSKU] = React.useState(
     data.product_variations[0].SKU ? data.product_variations[0].SKU : ""
   );
+  const [availableSizes, setAvailableSizes] = React.useState([]);
+  const [availableColors, setAvailableColors] = React.useState([]);
+
   const images = [data.image_1, data.image_2, data.image_3, data.image_4];
   const allVariations = data.product_variations ? data.product_variations : "";
   const dispatch = useDispatch();
@@ -88,6 +95,10 @@ export default function ProductDetail({ data }) {
                 id={size.id}
                 onClick={handleSizeVariationClick}
                 isSelected={selectedVariation.size === size.id}
+                disabled={
+                  selectedVariation.color &&
+                  !availableSizes.some((s) => s.id === size.id)
+                }
               />
             ))}
           </div>
@@ -111,6 +122,10 @@ export default function ProductDetail({ data }) {
                 id={color.id}
                 onClick={handleColorVariationClick}
                 isSelected={selectedVariation.color === color.id}
+                disabled={
+                  selectedVariation.size &&
+                  !availableColors.some((c) => c.id === color.id)
+                }
               />
             ))}
           </div>
@@ -140,6 +155,8 @@ export default function ProductDetail({ data }) {
     setSelectedVariation((prev) => ({
       ...prev,
       color: id,
+      sec_color: id,
+      sec_size: "",
     }));
   };
 
@@ -147,26 +164,30 @@ export default function ProductDetail({ data }) {
     setSelectedVariation((prev) => ({
       ...prev,
       size: id,
+      sec_size: id,
+      sec_color: "",
     }));
   };
 
-  const formatPrice = (price) => {
-    let floatPrice = parseFloat(price);
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(floatPrice);
-  };
-
-  const handleAddToCart = () => {    
+  const handleAddToCart = () => {
     if (quantity <= 0) {
       alert("Selected quantity must be higher than 0.");
     } else {
-      let chosenProduct = allVariations.find(
-        (element) =>
-          element.id_size === selectedVariation.size &&
-          element.id_color === selectedVariation.color
-      );
+      let chosenProduct = "";
+      if (allVariations.length > 1) {
+        chosenProduct = allVariations.find(
+          (element) =>
+            element.id_size === selectedVariation.size &&
+            element.id_color === selectedVariation.color
+        );
+      } else if (
+        allVariations.length === 1 &&
+        allVariations[0].id_size === "00000000-0000-0000-0000-000000000001" &&
+        allVariations[0].id_color === "00000000-0000-0000-0000-000000000002"
+      ) {
+        chosenProduct = allVariations[0];
+        console.log(chosenProduct);
+      }
 
       if (chosenProduct) {
         if (!(chosenProduct.stock > quantity)) {
@@ -175,8 +196,9 @@ export default function ProductDetail({ data }) {
         } else {
           chosenProduct.image = images[0];
           chosenProduct.selectedQuantity = quantity;
-          chosenProduct.name = data.product_name ? data.product_name : "NF";  
-          chosenProduct.calculated_price = (chosenProduct.final_price * chosenProduct.selectedQuantity);        
+          chosenProduct.name = data.product_name ? data.product_name : "NF";
+          chosenProduct.calculated_price =
+            chosenProduct.final_price * chosenProduct.selectedQuantity;
           dispatch(addProduct(chosenProduct));
           alert("Product added to the cart!");
         }
@@ -205,6 +227,34 @@ export default function ProductDetail({ data }) {
       }
     };
 
+    const updateAvailableVariations = () => {
+      const filteredSizes = allVariations
+        .filter(
+          (v) =>
+            (selectedVariation.sec_color === "" ||
+              v.id_color === selectedVariation.sec_color) &&
+            (selectedVariation.color === "" ||
+              v.id_color === selectedVariation.color)
+        )
+        .map((v) => ({ id: v.id_size, size: v.size }))
+        .filter((v, i, self) => self.findIndex((t) => t.id === v.id) === i);
+
+      const filteredColors = allVariations
+        .filter(
+          (v) =>
+            (selectedVariation.sec_size === "" ||
+              v.id_size === selectedVariation.sec_size) &&
+            (selectedVariation.size === "" ||
+              v.id_size === selectedVariation.size)
+        )
+        .map((v) => ({ id: v.id_color, color_code: v.color_code }))
+        .filter((v, i, self) => self.findIndex((t) => t.id === v.id) === i);
+
+      setAvailableSizes(filteredSizes);
+      setAvailableColors(filteredColors);
+    };
+
+    updateAvailableVariations();
     handleSkuChange();
   }, [allVariations, selectedVariation]);
 

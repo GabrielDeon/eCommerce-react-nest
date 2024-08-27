@@ -4,16 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { removeProduct } from "../store/cart/cartSlice";
+import formatPrice from "../utils/FormatPrice";
 
 const MinicartItem = ({ id, image, name, selectedQuantity, final_price }) => {
   const dispatch = useDispatch();
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price);
-  };
 
   const handleProductRemove = () => {
     dispatch(removeProduct(id));

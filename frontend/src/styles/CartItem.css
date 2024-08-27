@@ -47,9 +47,9 @@
 
 .cart-item-number-input {
     height: 47px;
-    text-align: center;
+    text-align: end;
     width: 40px;
-    border: none;
+    border: none;    
 }
 
 .cart-item-increment-btn,

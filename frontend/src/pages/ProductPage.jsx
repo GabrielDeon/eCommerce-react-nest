@@ -5,12 +5,10 @@ import ProductDetail from "../components/ProductDetail.jsx";
 import RelatedProducts from "../components/RelatedProducts.jsx";
 import ScrollToTop from "../components/ScrollToTop.jsx";
 import axios from "axios";
-import AuthenticateToken from "../utils/TokenValidation";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from 'react';
 
-export default function ShopPage() {
-  AuthenticateToken();
+export default function ShopPage() {  
   ScrollToTop();
   const { productId } = useParams();
   const [productData, setProductData] = useState(null);

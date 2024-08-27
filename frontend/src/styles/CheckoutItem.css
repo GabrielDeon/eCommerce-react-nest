@@ -1,0 +1,47 @@
+.checkoutItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checkItemLeft {
+    display: flex;
+    gap: 11px;
+    align-items: center;
+}
+
+.checkoutitemName {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    color: rgba(159, 159, 159, 1);
+}
+
+.checkoutitemTimes {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    text-align: left;
+    color: rgba(0, 0, 0, 1);
+}
+
+.checkoutitemQnt {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    text-align: left;
+    color: rgba(0, 0, 0, 1);
+}
+
+.checkoutitemSubtotal {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+    text-align: left;
+    color: rgba(0, 0, 0, 1);
+}

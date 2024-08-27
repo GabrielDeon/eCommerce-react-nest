@@ -6,6 +6,7 @@ import {
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/ProductGridTemplate.css";
+import formatPrice from "../utils/FormatPrice";
 
 //Product Template that uses the Product class object
 function ProductGridTemplate({ props }) {  
@@ -14,13 +15,6 @@ function ProductGridTemplate({ props }) {
 
   const basePrice = parseFloat(props.base_price);
   const finalPrice = parseFloat(props.final_price);
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price);
-  };
 
   const handleProductClick = () => {
     window.location.href = `/product/${props.id}`;
