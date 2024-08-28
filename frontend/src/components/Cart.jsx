@@ -20,7 +20,8 @@ const Cart = () => {
       draggable: true,
       progress: undefined,
       theme: "colored",
-      transition: Bounce      
+      transition: Bounce,
+      onClose: ()=> window.location.href = "/signin"   
     });    
   }
 
