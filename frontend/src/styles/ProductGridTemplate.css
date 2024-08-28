@@ -30,13 +30,19 @@
     color: white;
   }
   
-  .newProductTag {
+  .pdTagNew {
     background-color: #2EC1AC;
   }
   
-  .discountedTag {
+  .pdTagDisc {
     background-color: #E97171;
   }  
+
+  .pgTagNo {
+    display: none;
+  }
+
+  
   
   .productTextContent>h1 {
     font-family: Poppins;

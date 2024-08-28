@@ -9,8 +9,9 @@ import "../styles/ProductGridTemplate.css";
 import formatPrice from "../utils/FormatPrice";
 
 //Product Template that uses the Product class object
-function ProductGridTemplate({ props }) {  
-  let className = "productTag";
+function ProductGridTemplate({ props }) {
+  let classNameDiscount = "productTag";
+  let classNameNew = "productTag";
   let tagText = "";
 
   const basePrice = parseFloat(props.base_price);
@@ -20,14 +21,30 @@ function ProductGridTemplate({ props }) {
     window.location.href = `/product/${props.id}`;
   };
 
-  if (props.isNew) {
-    className += " newProductTag";
-    tagText = "New";
-  } else if (props.discount_percentage != 0) {
-    className += " discountedTag";
+  const isCreatedInLast30Days = (date) => {
+    const currentDate = new Date();
+    const date30DaysAgo = new Date();
+    date30DaysAgo.setDate(currentDate.getDate() - 30);
+    return date >= date30DaysAgo;
+  };
+
+  if (props.created_on) {
+    const ProductDate = new Date(props.created_on);
+
+    if (isCreatedInLast30Days(ProductDate)) {
+      classNameNew += " pdTagNew";
+    } else {
+      classNameNew += " pgTagNo";
+    }
+  } else {
+    classNameNew += " pgTagNo";
+  }
+
+  if (props.discount_percentage > 0) {
+    classNameDiscount += " pdTagDisc";
     tagText = "-" + props.discount_percentage.toString() + "%";
   } else {
-    className = "productTag";
+    classNameDiscount += " pgTagNo";
   }
 
   return (
@@ -41,7 +58,8 @@ function ProductGridTemplate({ props }) {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className={className}>{tagText}</div>
+        <div className={classNameDiscount}>{tagText}</div>
+        <div className={classNameNew}>New</div>
       </div>
       <div className="productText">
         <div className="productTextContent">

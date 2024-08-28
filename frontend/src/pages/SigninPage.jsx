@@ -7,13 +7,18 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
+import AuthenticateToken from "../utils/TokenValidation";
+import { toast, Bounce } from "react-toastify";
 
 export default function SigninPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
-  const [error, setError] = useState("");
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
+
+  if (AuthenticateToken()) {
+    window.location.href = "/";
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -35,10 +40,33 @@ export default function SigninPage() {
 
       Cookies.set("token", access_token, { expires: expiration });
 
-      navigate("/");
-    } catch (err) {
-      console.error(`Error signing in: ` + err);
-      setError("Invalid credentials or server error");
+      toast.success("Login successful! Welcome back!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+        onClose: () => navigate("/"),
+      });
+    } catch {
+      toast.error(
+        "Login failed. Please check your credentials and try again.",
+        {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        }
+      );
     }
   };
 
@@ -91,8 +119,6 @@ export default function SigninPage() {
               Login
             </button>
           </form>
-
-          {error && <p className="error">{error}</p>}
 
           <div className="OrText">
             <p>Or</p>

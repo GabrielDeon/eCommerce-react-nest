@@ -22,17 +22,17 @@ function Header() {
   };
 
   const handleUserClick = () => {
-    if(!logged) {
+    if (!logged) {
       window.location.href = "/signin";
     }
-  }
+  };  
 
   const handleLogOut = () => {
-     Cookies.remove("token");
-     setLogged(AuthenticateToken());
-     toast.info(`User logged out.`, {
+    Cookies.remove("token");
+    setLogged(AuthenticateToken());
+    toast.info(`User logged out.`, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 3500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -41,6 +41,9 @@ function Header() {
       theme: "colored",
       transition: Bounce,
     });
+    if (window.location.pathname === "/checkout") {
+      window.location.href = "/";
+    }
   };
 
   return (

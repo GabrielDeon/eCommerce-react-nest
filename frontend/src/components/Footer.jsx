@@ -1,10 +1,10 @@
 import React from "react";
 import "../styles/Footer.css";
+import { toast, Bounce } from "react-toastify";
 
 function Footer() {
   //Hooks
   const [email, setEmail] = React.useState("");
-  const [emailStatus, setEmailStatus] = React.useState("");
 
   //Handlers
   const handleEmailChange = (event) => {
@@ -15,9 +15,35 @@ function Footer() {
     event.preventDefault();
 
     if (validateEmail(email)) {
-      setEmailStatus("sucess");
+      toast.success(
+        "Your email has been successfully added to our newsletter list.",
+        {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        }
+      );
     } else {
-      setEmailStatus("errorr");
+      toast.error(
+        "he email address you entered seems to be in an invalid format!",
+        {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        }
+      );
     }
   };
 
@@ -82,14 +108,6 @@ function Footer() {
                   onChange={handleEmailChange}
                 ></input>
                 <button type="submit">SUBSCRIBE</button>
-                {emailStatus && (
-                  <span className={emailStatus}>
-                    {" "}
-                    {emailStatus == "sucess"
-                      ? "Email subscribed!"
-                      : "Invalid Email!"}{" "}
-                  </span>
-                )}
               </form>
             </div>
           </div>

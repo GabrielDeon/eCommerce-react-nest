@@ -12,8 +12,10 @@ import ProductImageVariation from "./ProductImageVariation";
 import ProductColorVariation from "./ProductColorVariation";
 import ProductSizeVariation from "./ProductSizeVariation";
 import { useDispatch } from "react-redux";
-import { addProduct } from "../store/cart/cartSlice";
+import { addProduct, updateProduct } from "../store/cart/cartSlice";
 import formatPrice from "../utils/FormatPrice";
+import { toast, Bounce } from "react-toastify";
+import { useSelector } from "react-redux";
 
 export default function ProductDetail({ data }) {
   const [quantity, setQuantity] = React.useState(0);
@@ -24,7 +26,6 @@ export default function ProductDetail({ data }) {
     sec_size: "",
     sec_color: "",
   });
-
   const [SKU, setSKU] = React.useState(
     data.product_variations[0].SKU ? data.product_variations[0].SKU : ""
   );
@@ -33,6 +34,7 @@ export default function ProductDetail({ data }) {
 
   const images = [data.image_1, data.image_2, data.image_3, data.image_4];
   const allVariations = data.product_variations ? data.product_variations : "";
+  const products = useSelector((state) => state.cart.products);
   const dispatch = useDispatch();
 
   const extractUniqueVariations = (productVariations) => {
@@ -170,41 +172,142 @@ export default function ProductDetail({ data }) {
   };
 
   const handleAddToCart = () => {
-    if (quantity <= 0) {
-      alert("Selected quantity must be higher than 0.");
-    } else {
-      let chosenProduct = "";
-      if (allVariations.length > 1) {
+    let chosenProduct = "";
+    let hasColors = false;
+    let hasSizes = false;
+
+    // Check if product has available sizes
+    if (uniqueSizes.length > 0) {
+      hasSizes = true;
+      if (!selectedVariation.size) {
+        toast.warn("You must select a size for the product.", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+          transition: Bounce,
+        });
+        return;
+      }
+    }
+
+    // Check if product has available colors
+    if (uniqueColors.length > 0) {
+      hasColors = true;
+      if (!selectedVariation.color) {
+        toast.warn("You must select a color for the product.", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+          transition: Bounce,
+        });
+        return;
+      }
+    }
+
+    // Find the chosen product based on selected variations
+    if (allVariations.length > 1) {
+      if (hasColors && hasSizes) {
         chosenProduct = allVariations.find(
           (element) =>
             element.id_size === selectedVariation.size &&
             element.id_color === selectedVariation.color
         );
-      } else if (
-        allVariations.length === 1 &&
-        allVariations[0].id_size === "00000000-0000-0000-0000-000000000001" &&
-        allVariations[0].id_color === "00000000-0000-0000-0000-000000000002"
-      ) {
-        chosenProduct = allVariations[0];
-        console.log(chosenProduct);
+      } else if (hasColors && !hasSizes) {
+        chosenProduct = allVariations.find(
+          (element) =>
+            (element.id_size === "00000000-0000-0000-0000-000000000001" ||
+              element.id_size === null) &&
+            element.id_color === selectedVariation.color
+        );
+      } else if (hasSizes && !hasColors) {
+        chosenProduct = allVariations.find(
+          (element) =>
+            element.id_size === selectedVariation.size &&
+            (element.id_color === "00000000-0000-0000-0000-000000000002" ||
+              element.id_color === null)
+        );
       }
+    } else if (
+      //Standart Variation
+      allVariations.length === 1 &&
+      allVariations[0].id_size === "00000000-0000-0000-0000-000000000001" &&
+      allVariations[0].id_color === "00000000-0000-0000-0000-000000000002"
+    ) {
+      chosenProduct = allVariations[0];
+    }
 
-      if (chosenProduct) {
-        if (!(chosenProduct.stock > quantity)) {
-          setQuantity(0);
-          alert("Quantity selected is not available.");
-        } else {
-          chosenProduct.image = images[0];
-          chosenProduct.selectedQuantity = quantity;
-          chosenProduct.name = data.product_name ? data.product_name : "NF";
-          chosenProduct.calculated_price =
-            chosenProduct.final_price * chosenProduct.selectedQuantity;
-          dispatch(addProduct(chosenProduct));
-          alert("Product added to the cart!");
-        }
+    if (chosenProduct) {
+      if (chosenProduct.stock === 0) {
+        toast.warn("Product out of stock.", {
+          position: "top-center",
+          autoClose: 3000,
+          theme: "colored",
+          transition: Bounce,
+        });
+      } else if (chosenProduct.stock <= quantity) {
+        setQuantity(0);
+        toast.warn("Quantity selected is not available.", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+          transition: Bounce,
+        });
+      } else if (quantity === 0) {
+        toast.warn("Quantity selected must not be zero.", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+          transition: Bounce,
+        });
       } else {
-        alert("This variation of Color/Size is unavailable");
+        // Update product details
+        const updatedProduct = {
+          ...chosenProduct,
+          image: images[0],
+          selectedQuantity: quantity,
+          name: data.product_name || "NF",
+          calculated_price: chosenProduct.final_price * quantity,
+        };
+
+        let existingProduct = products.find(
+          (product) => product.id === chosenProduct.id
+        );
+
+        if (existingProduct) {
+          dispatch(
+            updateProduct({ id: chosenProduct.id, attProduct: updatedProduct })
+          );
+        } else {
+          dispatch(addProduct(updatedProduct));
+        }
+
+        toast.info("Product added to the Cart.", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+          transition: Bounce,
+          onClose: () => {
+            window.location.href = "/";
+          },
+        });
       }
+    } else {
+      const isVariationNotSelected =
+        allVariations.length > 1 &&
+        ((availableSizes.length > 0 && !selectedVariation.size) ||
+          (availableColors.length > 0 && !selectedVariation.color));
+
+      toast.warn(
+        isVariationNotSelected
+          ? "You need to select the product variation first."
+          : "This variation of Color/Size is unavailable.",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+          transition: Bounce,
+        }
+      );
     }
   };
 

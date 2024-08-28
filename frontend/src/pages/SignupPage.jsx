@@ -4,6 +4,7 @@ import { faApple, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import { toast, Bounce } from "react-toastify";
 
 export default function SignUpPage() {
   const [username, setUsername] = useState("");
@@ -11,7 +12,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,7 +26,18 @@ export default function SignUpPage() {
         password,
       });
 
-      navigate("/signin");
+      toast.success("User account created successfully! Welcome aboard!!", {
+        position: "top-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+        onClose: () => navigate("/signin"),
+      });
     } catch (err) {
       console.error(`Error signing up:`, err);
 

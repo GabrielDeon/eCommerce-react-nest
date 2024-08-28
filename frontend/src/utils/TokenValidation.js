@@ -10,9 +10,6 @@ const AuthenticateToken = () => {
     const decodedToken = jwtDecode(token);
 
     if (!(dateNow < decodedToken.exp)) {
-      alert(
-        `token expired: Date Now: ${dateNow} /n Expiration: ${decodedToken.exp}`
-      );
       toast.info(`Your session expired! Please signin again.`, {
         position: "top-right",
         autoClose: 5000,
