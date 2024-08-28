@@ -29,15 +29,17 @@ export const counterSlice = createSlice({
     updateProduct: (state, action) => {
       const { id, attProduct } = action.payload;
 
-      const index = state.products.findIndex(
-        (element) => element.id === id
-      );
+      const index = state.products.findIndex((element) => element.id === id);
 
       if (index !== -1) {
         state.products[index] = attProduct;
 
         counterSlice.caseReducers.recalculateTotalValue(state);
       }
+    },
+    resetCart: (state) => {
+      state.products = [];
+      counterSlice.caseReducers.recalculateTotalValue(state);
     },
     recalculateTotalValue: (state) => {
       if (state.products.length === 0) {
@@ -51,7 +53,7 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { addProduct, removeProduct, updateProduct } =
+export const { addProduct, removeProduct, updateProduct, resetCart } =
   counterSlice.actions;
 
 export default counterSlice.reducer;

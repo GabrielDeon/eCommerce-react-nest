@@ -7,6 +7,8 @@ import { toast, Bounce } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { resetCart } from "../store/cart/cartSlice";
 
 function Checkout() {
   const totalValue = useSelector((state) => state.cart.total_value);
@@ -33,6 +35,7 @@ function Checkout() {
       [name]: value,
     });
   };
+  const dispatch = useDispatch();
 
   const CreateBill = async (id_cart) => {
     try {
@@ -50,11 +53,11 @@ function Checkout() {
         email_address: orderValues.email,
         additional_info: orderValues.additionalInfo,
         final_price: `${totalValue}`,
-      };      
+      };
 
       await axios.post("http://localhost:3000/bill", billData);
 
-      toast.success("Your order has been made. Waiting for payment!", {
+      toast.info("Your order has been made. Waiting for payment!", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -64,16 +67,57 @@ function Checkout() {
         progress: undefined,
         theme: "colored",
         transition: Bounce,
+        onClose: () => PayOrder(id_cart),
       });
-
     } catch (error) {
       console.log(error);
     }
   };
 
+  const PayOrder = async (cartId) => {
+    try {
+      await axios.patch(`http://localhost:3000/cart/${cartId}`, {
+        status: "CHECKEDOUT",
+      });
+    } catch (error) {
+      console.log("Error:", error.message);
+    }
+
+    products.forEach(async (element) => {
+      try {
+        const newStock = element.stock - element.selectedQuantity;
+        console.log(newStock);
+
+        await axios.patch(
+          `http://localhost:3000/product-variation/${element.id}`,
+          {
+            stock: newStock,
+          }
+        );
+      } catch (error) {
+        console.log("Error", error.message);
+      }
+    });
+
+    toast.success("Payment accepted! Your products will arrive soon.", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce,
+      onClose: () => {
+        dispatch(resetCart());
+        window.location.href = "/";
+      },
+    });
+  };
+
   const PlaceOrder = async (e) => {
     e.preventDefault();
-
     try {
       const decodedToken = await jwtDecode(Cookies.get("token"));
 
@@ -102,7 +146,7 @@ function Checkout() {
       console.error(
         `Error while creating a Cart and its items: ` + err.message
       );
-    }   
+    }
   };
 
   return (
@@ -285,7 +329,7 @@ function Checkout() {
           <div className="btnCheckout">
             <button type="submit" form="checkoutForm">
               Place Order
-            </button>            
+            </button>
           </div>
         </div>
       </div>
